@@ -71,6 +71,8 @@ class CustomUser(AbstractBaseUser):
 
     def __str__(self):
         return self.email
+    class Meta:
+        verbose_name = 'Utilisateur'
 
 
 class Profile(models.Model):
@@ -90,8 +92,7 @@ class Profile(models.Model):
     # Champ pour stocker le rôle
     role = models.CharField(max_length=15, choices=ROLE_CHOICES, default=CLIENT)
 
-    class Meta:
-        verbose_name = 'Utilisateur'
+
 
     def __str__(self):
         # Utilise l'email de l'utilisateur pour représenter le profil
