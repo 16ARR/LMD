@@ -15,14 +15,14 @@
 <!-- Navigation-->
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <div class="container px-4 px-lg-5">
-        <a class="navbar-brand" href=home>La Marmite Digitale</a>
+        <a class="navbar-brand" href="{% url 'home' %}">La Marmite Digitale</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
                 aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span
                 class="navbar-toggler-icon"></span></button>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4">
                 {% if request.user.is_authenticated %}
-                <li class="nav-item"><a class="nav-link active" aria-current="page" href="logout">Déconnexion</a>
+                <li class="nav-item"><a class="nav-link active" aria-current="page" href="{% url 'logout' %}">Déconnexion</a>
                 </li>
                 {% else %}
                 <li class="nav-item"><a class="nav-link active" aria-current="page" href="inscription">Inscription</a>
@@ -36,7 +36,7 @@
                     <a class="nav-link active dropdown-toggle" id="navbarDropdown2" href="#" role="button"
                        data-bs-toggle="dropdown" aria-expanded="false">Mon compte</a>
                     <ul class="dropdown-menu" aria-labelledby="navbarDropdown2">
-                        <li><a class="dropdown-item" href="">Profil</a></li>
+                        <li><a class="dropdown-item" href="{% url 'profile' %}">Profil</a></li>
                         <li>
                             <hr class="dropdown-divider"/>
                         </li>
@@ -46,7 +46,20 @@
                 </li>
                 {% endif %}
 
-
+                {% if user_profile and user_profile.role == 'vendeur' %}
+                <li class="nav-item dropdown">
+                    <a class="nav-link active dropdown-toggle" id="navbarDropdown1" href="#" role="button"
+                       data-bs-toggle="dropdown" aria-expanded="false">wouuuuh</a>
+                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown3">
+                        <li><a class="dropdown-item" href="">Chat</a></li>
+                        <li>
+                            <hr class="dropdown-divider"/>
+                        </li>
+                        <li><a class="dropdown-item" href="">F.A.Q</a></li>
+                        <li><a class="dropdown-item" href="">Historique</a></li>
+                    </ul>
+                </li>
+                {% endif %}
                 <li class="nav-item dropdown">
                     <a class="nav-link active dropdown-toggle" id="navbarDropdown" href="#" role="button"
                        data-bs-toggle="dropdown" aria-expanded="false">Les Vitrines</a>
