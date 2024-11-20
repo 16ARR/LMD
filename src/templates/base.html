@@ -46,20 +46,8 @@
                 </li>
                 {% endif %}
 
-<!--                {% if user_profile and user_profile.role == 'vendeur' %}-->
-<!--                <li class="nav-item dropdown">-->
-<!--                    <a class="nav-link active dropdown-toggle" id="navbarDropdown1" href="#" role="button"-->
-<!--                       data-bs-toggle="dropdown" aria-expanded="false">wouuuuh</a>-->
-<!--                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown3">-->
-<!--                        <li><a class="dropdown-item" href="">Chat</a></li>-->
-<!--                        <li>-->
-<!--                            <hr class="dropdown-divider"/>-->
-<!--                        </li>-->
-<!--                        <li><a class="dropdown-item" href="">F.A.Q</a></li>-->
-<!--                        <li><a class="dropdown-item" href="">Historique</a></li>-->
-<!--                    </ul>-->
-<!--                </li>-->
-<!--                {% endif %}-->
+
+
                 <li class="nav-item dropdown">
                     <a class="nav-link active dropdown-toggle" id="navbarDropdown" href="#" role="button"
                        data-bs-toggle="dropdown" aria-expanded="false">Les Vitrines</a>
@@ -91,7 +79,12 @@
                 </li>
 
                 <!-- end SAV -->
-
+                {% if user_profile and user_profile.role == 'gestionnaire' %}
+                </li>
+                <li class="nav-item"><a class="nav-link active" aria-current="page" href="{% url 'admin:index' %}">Administration</a>
+                </li>
+                {% endif %}
+                
                 {% if request.user.is_superuser %}
                 <!-- Admin Panel -->
 

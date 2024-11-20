@@ -11,7 +11,7 @@ from django.contrib.auth import views as auth_views
 from Comptes.user import exchanger_logout
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
+    path('admin/', admin.site.urls,),
     path('', HomeView.as_view(), name='home'),
     path('inscription/', views.inscription, name='inscription'),
     path('profile/', views.profile, name='profile'),
