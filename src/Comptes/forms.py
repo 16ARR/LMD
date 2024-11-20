@@ -39,7 +39,7 @@ class UserRegistrationForm(forms.ModelForm):
 class UserEditForm(forms.ModelForm):
     class Meta:
         model = CustomUser
-        fields = ['email', 'username', 'first_name', 'last_name', 'date_of_birth', 'phone_number']
+        fields = ['email', 'username', 'first_name', 'last_name', 'date_of_birth', 'phone_number', 'profile_picture']
         widgets = {
             'date_of_birth': DateInput(attrs={'type': 'date', 'placeholder': 'DD-MM-YYYY'}),
         }

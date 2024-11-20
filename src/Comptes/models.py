@@ -51,6 +51,7 @@ class CustomUser(AbstractBaseUser):
     date_of_birth = models.DateField(null=True)
     phone_number = models.CharField(max_length=15, blank=True)
     date_joined = models.DateTimeField(auto_now_add=True, null=True)
+    profile_picture = models.ImageField(upload_to='profile_pictures/', blank=True, null=True)
 
     is_active = models.BooleanField(default=True)
     is_admin = models.BooleanField(default=False)

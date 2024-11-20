@@ -28,7 +28,7 @@ def profile(request):
 
 def edit_profile(request):
     if request.method == 'POST':
-        form = UserEditForm(request.POST, instance=request.user)
+        form = UserEditForm(request.POST, request.FILES, instance=request.user)
         if form.is_valid():
             form.save()
             return redirect('profile')  # Redirection vers la page de profil après sauvegarde
@@ -36,4 +36,3 @@ def edit_profile(request):
         form = UserEditForm(instance=request.user)
 
     return render(request, 'edit_profile.html', {'form': form})
-

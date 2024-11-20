@@ -12,6 +12,11 @@
 </head>
 <body>
     <h1>Bienvenue, {{ user.first_name }}!</h1>
+    {% if user.profile_picture %}
+    <img src="{{ user.profile_picture.url }}" alt="Photo de profil" style="width: 150px; height: 150px; border-radius: 50%;">
+{% else %}
+    <p>Pas de photo de profil.</p>
+{% endif %}
     <p>Email: {{ user.email }}</p>
     <p>Nom d'utilisateur: {{ user.username }}</p>
     <p>Nom: {{ user.last_name }}</p>
