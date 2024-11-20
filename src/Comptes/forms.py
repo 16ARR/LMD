@@ -1,4 +1,3 @@
-# forms.py
 from django import forms
 from django.forms.widgets import DateInput
 from .models import CustomUser
@@ -11,8 +10,8 @@ class UserRegistrationForm(forms.ModelForm):
     class Meta:
         model = CustomUser
         fields = ['email', 'username', 'first_name', 'last_name', 'date_of_birth', 'phone_number', 'password']
-        widgets= {
-            'date_of_birth': DateInput(attrs={'type': 'date','placeholder':'DD-MM-YYYY'}),
+        widgets = {
+            'date_of_birth': DateInput(attrs={'type': 'date', 'placeholder': 'DD-MM-YYYY'}),
         }
 
     def clean_password(self):
@@ -36,3 +35,11 @@ class UserRegistrationForm(forms.ModelForm):
 
         if password and confirm_password and password != confirm_password:
             self.add_error('confirm_password', "Les mots de passe ne correspondent pas.")
+
+class UserEditForm(forms.ModelForm):
+    class Meta:
+        model = CustomUser
+        fields = ['email', 'username', 'first_name', 'last_name', 'date_of_birth', 'phone_number']
+        widgets = {
+            'date_of_birth': DateInput(attrs={'type': 'date', 'placeholder': 'DD-MM-YYYY'}),
+        }
