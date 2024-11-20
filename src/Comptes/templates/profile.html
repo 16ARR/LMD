@@ -12,14 +12,20 @@
 </head>
 <body>
     <h1>Bienvenue, {{ user.first_name }}!</h1>
+    {% if user.profile_picture %}
+    <img src="{{ user.profile_picture.url }}" alt="Photo de profil" style="width: 150px; height: 150px; border-radius: 50%;">
+{% else %}
+    <p>Pas de photo de profil.</p>
+{% endif %}
     <p>Email: {{ user.email }}</p>
     <p>Nom d'utilisateur: {{ user.username }}</p>
     <p>Nom: {{ user.last_name }}</p>
     <p>Prénom: {{ user.first_name }}</p>
     <p>Date de naissance: {{ user.date_of_birth|date:"d/m/Y" }}</p>
     <p>Téléphone: {{ user.phone_number }}</p>
-    <p>Date de création du compte: {{ user.date_joined|date:"d/m/Y H:i" }}</p>
 
+
+    <a href="{% url 'edit_profile' %}" class="btn btn-primary">Modifier le profil</a>
 <form method="post" action="/logout/">
     {% csrf_token %}
     <button type="submit" class="btn btn-danger">Déconnexion</button>

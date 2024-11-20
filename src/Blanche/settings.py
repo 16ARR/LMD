@@ -134,6 +134,8 @@ STATIC_URL = '/static/'
 STATIC_ROOT = BASE_DIR / 'staticfiles'
 LOGIN_REDIRECT_URL='/profile/'
 LOGOUT_REDIRECT_URL='/'
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 AUTH_USER_MODEL = 'Comptes.CustomUser'
 
