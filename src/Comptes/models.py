@@ -43,15 +43,15 @@ class MyUserManager(BaseUserManager):
 
 
 class CustomUser(AbstractBaseUser):
-    email = models.EmailField(unique=True, attrs={'placeholder': 'Email'})
-    user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, null=True),
-    username = models.CharField(max_length=30, unique=True, default="",attrs={'placeholder':'Nom d\'utilisateur'}),
-    first_name = models.CharField(max_length=30, default='',attrs={'placeholder':'Prénom'}),
-    last_name = models.CharField(max_length=30, default='',attrs={'placeholder':'Nom de Famille'}),
-    date_of_birth = models.DateField(null=True, blank=True,attrs={'placeholder':'JJ/MM/AAAA'}),
-    phone_number = models.CharField(max_length=15, blank=True,attrs={'placeholder':'Numéro de téléphone'})
-    date_joined = models.DateTimeField(auto_now_add=True, null=True),
-    profile_picture = models.ImageField(upload_to='profile_pictures/', blank=True, null=True),
+    email = models.EmailField(unique=True)
+    user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, null=True)
+    username = models.CharField(max_length=30, unique=True, default="")
+    first_name = models.CharField(max_length=30, default='')
+    last_name = models.CharField(max_length=30, default='')
+    date_of_birth = models.DateField(null=True, blank=True,)
+    phone_number = models.CharField(max_length=15, blank=True)
+    date_joined = models.DateTimeField(auto_now_add=True, null=True)
+    profile_picture = models.ImageField(upload_to='profile_pictures/', blank=True, null=True)
 
     is_active = models.BooleanField(default=True)
     is_admin = models.BooleanField(default=False)
@@ -97,29 +97,21 @@ def create_user_profile(sender, instance, created, **kwargs):
 post_save.connect(create_user_profile, sender=CustomUser)
 
 
-# class Profile(models.Model):
-#     user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
-#
-#     # Définition des rôles de l'utilisateur
-#     CLIENT = 'client'
-#     VENDEUR = 'vendeur'
-#     GESTIONNAIRE = 'gestionnaire'
-#
-#     ROLE_CHOICES = [
-#         (CLIENT, 'Client'),
-#         (VENDEUR, 'Vendeur'),
-#         (GESTIONNAIRE, 'Gestionnaire de vendeur'),
-#     ]
-#
-#     # Champ pour stocker le rôle
-#     role = models.CharField(max_length=15, choices=ROLE_CHOICES, default=CLIENT)
-#
-#     class Meta:
-#         verbose_name = 'Utilisateur'
-#
-#     def __str__(self):
-#         # Utilise l'email de l'utilisateur pour représenter le profil
-#         return f"{self.user.first_name} - {self.get_role_display()}"
+class Vitrine(models.Model):
+    user = models.OneToOneField(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+        related_name='vitrine',
+    )
+    nom_boutique = models.CharField(max_length=255)
+    description_boutique = models.TextField()
+    nom_proprietaire = models.CharField(max_length=255)
+    description_proprietaire = models.TextField()
+    horaires = models.JSONField()  # Clé-valeur pour lundi à dimanche
+    adresse = models.TextField()
+
+    def __str__(self):
+        return self.nom_boutique
 
 
 

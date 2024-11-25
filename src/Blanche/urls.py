@@ -18,6 +18,9 @@ urlpatterns = [
     path('logout/', exchanger_logout, name="logout"),
     path('login/', auth_views.LoginView.as_view(template_name='login.html'), name='login'),
     path('profile/edit/', views.edit_profile, name='edit_profile'),
+    path('ma-vitrine/', views.ma_vitrine, name='ma_vitrine'),
+    path('creer-vitrine/', views.creer_vitrine, name='creer_vitrine'),
+    path('vitrine_non_cree/', views.creer_vitrine, name='vitrine_non_cree'),
 
 ]
 

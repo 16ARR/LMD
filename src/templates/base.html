@@ -108,7 +108,37 @@
 
                 <!--end Admin Panel -->
                 {% endif %}
-            </ul>
+                 {% if user_profile and user_profile.role == 'vendeur' %}
+                </li>
+                <li class="nav-item"><a class="nav-link active" aria-current="page" href="{% url 'ma_vitrine' %}">Ma vitrine</a>
+                </li>
+                {% endif %}
+
+                {% if request.user.is_superuser %}
+                <!-- Admin Panel -->
+
+                <li class="nav-item dropdown">
+                    <a class="nav-link active dropdown-toggle" id="navbarDropdown4" href="#" role="button"
+                       data-bs-toggle="dropdown" aria-expanded="false">Tâches en attente</a>
+                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown4">
+                        <li><a class="dropdown-item" href="">Echanges en attente</a>
+                        </li>
+
+                        <li><a class="dropdown-item" href="">Annonces en attente</a>
+                        </li>
+
+                        <li><a class="dropdown-item" href="">Tickets en attente</a></li>
+
+                    </ul>
+                </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'ma_vitrine' %}">Ma vitrine</a>
+                    </li>
+
+                <!--end Admin Panel -->
+                {% endif %}
+                    </ul>
             <form class="d-flex">
                 <a href="" class="btn btn-outline-dark">
                     <i class="bi-cart-fill me-1"></i>

@@ -1,6 +1,6 @@
 from django import forms
 from django.forms.widgets import DateInput
-from .models import CustomUser
+from .models import CustomUser, Vitrine
 import re
 
 class UserRegistrationForm(forms.ModelForm):
@@ -46,3 +46,19 @@ class UserEditForm(forms.ModelForm):
             super().__init__(*args, **kwargs)
             if self.instance and self.instance.date_of_birth:
                 self.fields['date_of_birth'].initial = self.instance.date_of_birth
+
+class VitrineForm(forms.ModelForm):
+    class Meta:
+        model = Vitrine
+        fields = [
+            'nom_boutique',
+            'description_boutique',
+            'nom_proprietaire',
+            'description_proprietaire',
+            'horaires',
+            'adresse'
+        ]
+        widgets = {
+            'horaires': forms.Textarea(attrs={'placeholder': 'Ex: Lundi: 9h-18h\nMardi: 10h-19h'}),
+            'adresse': forms.Textarea(attrs={'placeholder': 'Votre adresse complète'}),
+        }

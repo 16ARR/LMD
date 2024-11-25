@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% block body %}
+<h1>Ma Vitrine</h1>
+
+<h1>{{ vitrine.nom_boutique }}</h1>
+<p>{{ vitrine.description_boutique }}</p>
+<p>Propriétaire : {{ vitrine.nom_proprietaire }}</p>
+<p>Description : {{ vitrine.description_proprietaire }}</p>
+<p>Adresse : {{ vitrine.adresse }}</p>
+<p>Horaires : {{ vitrine.horaires|linebreaks }}</p>
+<a href="{% url 'creer_vitrine' %}">Modifier la vitrine</a>
+{% endblock %}
