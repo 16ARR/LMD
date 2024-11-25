@@ -43,15 +43,15 @@ class MyUserManager(BaseUserManager):
 
 
 class CustomUser(AbstractBaseUser):
-    email = models.EmailField(unique=True)
-    user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, null=True)
-    username = models.CharField(max_length=30, unique=True, default="")
-    first_name = models.CharField(max_length=30, default='')
-    last_name = models.CharField(max_length=30, default='')
-    date_of_birth = models.DateField(null=True)
-    phone_number = models.CharField(max_length=15, blank=True)
-    date_joined = models.DateTimeField(auto_now_add=True, null=True)
-    profile_picture = models.ImageField(upload_to='profile_pictures/', blank=True, null=True)
+    email = models.EmailField(unique=True, attrs={'placeholder': 'Email'})
+    user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, null=True),
+    username = models.CharField(max_length=30, unique=True, default="",attrs={'placeholder':'Nom d\'utilisateur'}),
+    first_name = models.CharField(max_length=30, default='',attrs={'placeholder':'Prénom'}),
+    last_name = models.CharField(max_length=30, default='',attrs={'placeholder':'Nom de Famille'}),
+    date_of_birth = models.DateField(null=True, blank=True,attrs={'placeholder':'JJ/MM/AAAA'}),
+    phone_number = models.CharField(max_length=15, blank=True,attrs={'placeholder':'Numéro de téléphone'})
+    date_joined = models.DateTimeField(auto_now_add=True, null=True),
+    profile_picture = models.ImageField(upload_to='profile_pictures/', blank=True, null=True),
 
     is_active = models.BooleanField(default=True)
     is_admin = models.BooleanField(default=False)
