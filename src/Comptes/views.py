@@ -2,7 +2,7 @@
 # Create your views here.
 from django.contrib.auth import login
 from django.contrib.auth.decorators import login_required
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 
 from .forms import UserRegistrationForm, UserEditForm
 from .models import CustomUser
@@ -27,6 +27,7 @@ def profile(request):
     return render(request, 'profile.html', {'user': request.user})
 
 def edit_profile(request):
+    user = get_object_or_404(CustomUser, pk=request.user.pk)
     if request.method == 'POST':
         form = UserEditForm(request.POST, request.FILES, instance=request.user)
         if form.is_valid():

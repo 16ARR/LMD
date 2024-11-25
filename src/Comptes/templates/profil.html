@@ -13,7 +13,9 @@
 <body>
     <h1>Bienvenue, {{ user.first_name }}!</h1>
     {% if user.profile_picture %}
-    <img src="{{ user.profile_picture.url }}" alt="Photo de profil" style="width: 150px; height: 150px; border-radius: 50%;">
+<img src="{{ user.profile_picture.url }}" alt="Photo de profil" style="width: 150px; height: 150px; object-fit: cover; border-radius: 50%;">
+    <p><strong>Nom :</strong> {{ user.first_name }} {{ user.last_name }}</p>
+<p><strong>Email :</strong> {{ user.email }}</p>
 {% else %}
     <p>Pas de photo de profil.</p>
 {% endif %}

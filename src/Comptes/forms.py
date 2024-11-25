@@ -40,6 +40,9 @@ class UserEditForm(forms.ModelForm):
     class Meta:
         model = CustomUser
         fields = ['email', 'username', 'first_name', 'last_name', 'date_of_birth', 'phone_number', 'profile_picture']
-        widgets = {
-            'date_of_birth': DateInput(attrs={'type': 'date', 'placeholder': 'DD-MM-YYYY'}),
-        }
+
+
+    def __init__(self, *args, **kwargs):
+            super().__init__(*args, **kwargs)
+            if self.instance and self.instance.date_of_birth:
+                self.fields['date_of_birth'].initial = self.instance.date_of_birth

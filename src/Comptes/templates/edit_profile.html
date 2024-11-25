@@ -1,10 +1,58 @@
 {% extends "base.html" %}
 {% block body %}
 <h1>Modifier votre profil</h1>
+
 <form method="post" enctype="multipart/form-data">
     {% csrf_token %}
     {{ form.as_p }}
+    <div>
+        {% if user.profile_picture %}
+        <label>Prévisualisation de la photo :</label>
+        <img id="imagePreview" src="{{ user.profile_picture.url }}" alt="Prévisualisation" style="max-width: 200px;">
+        {% else %}
+    <p>Pas de photo de profil.</p>
+{% endif %}
+    </div>
+    <div>
+        <label for="profilePictureInput">Photo de profil</label>
+        <input type="file" id="profilePictureInput" name="profile_picture" accept="image/*">
+    </div>
     <button type="submit">Sauvegarder</button>
     <a href="{% url 'profile' %}">Annuler</a>
 </form>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.js"></script>
+<script>
+    const input = document.getElementById('profilePictureInput');
+    const imagePreview = document.getElementById('imagePreview');
+    let cropper;
+
+    input.addEventListener('change', (event) => {
+        const file = event.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = () => {
+                imagePreview.src = reader.result;
+                if (cropper) cropper.destroy();
+                cropper = new Cropper(imagePreview, {
+                    aspectRatio: 1,
+                    viewMode: 1,
+                });
+            };
+            reader.readAsDataURL(file);
+        }
+    });
+
+    document.querySelector('form').addEventListener('submit', (event) => {
+        if (cropper) {
+            const canvas = cropper.getCroppedCanvas();
+            canvas.toBlob((blob) => {
+                const fileInput = new File([blob], 'cropped_image.png', { type: 'image/png' });
+                const dataTransfer = new DataTransfer();
+                dataTransfer.items.add(fileInput);
+                input.files = dataTransfer.files;
+            });
+        }
+    });
+</script>
 {% endblock %}
