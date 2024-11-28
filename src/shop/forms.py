@@ -10,7 +10,7 @@ class VitrineForm(forms.ModelForm):
             'description_boutique',
             'nom_proprietaire',
             'description_proprietaire',
-            'horaires',
+            # 'horaires',
             'adresse'
         ]
         # widgets = {

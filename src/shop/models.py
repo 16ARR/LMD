@@ -16,7 +16,7 @@ class Vitrine(models.Model):
     description_boutique = models.CharField(max_length=255)
     nom_proprietaire = models.CharField(max_length=255)
     description_proprietaire = models.CharField(max_length=255)
-    horaires = models.CharField(max_length=255)  # Clé-valeur pour lundi à dimanche
+    # horaires = models.CharField(max_length=255)  # Clé-valeur pour lundi à dimanche
     adresse = models.CharField(max_length=255)
 
     def __str__(self):

@@ -26,7 +26,7 @@ def create_vitrine(request):
             vitrine = form.save(commit=False)
             vitrine.user = request.user
             vitrine.save()
-            return redirect('vitrine')
+            return redirect('shop:vitrine')
     else:
         form = VitrineForm()
     return render(request, 'shop/create_vitrine.html', {'form': form})
