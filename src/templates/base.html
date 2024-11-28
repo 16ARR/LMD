@@ -79,6 +79,8 @@
                 </li>
 
                 <!-- Admin GESTIONNAIRE -->
+
+
                 {% if user_profil and user_profil.role == 'gestionnaire' %}
 
                 <li class="nav-item"><a class="nav-link active" aria-current="page" href="{% url 'admin:index' %}">Administration</a>
@@ -86,7 +88,7 @@
                 {% endif %}
 
 
-                <!-- Vitrine VENDEUR -->
+<!--                 Vitrine VENDEUR-->
 
                 {% if user_profile and user_profile.role == 'vendeur' %}
 

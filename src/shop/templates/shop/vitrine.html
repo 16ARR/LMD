@@ -8,5 +8,5 @@
 <p>Description : {{ vitrine.description_proprietaire }}</p>
 <p>Adresse : {{ vitrine.adresse }}</p>
 <p>Horaires : {{ vitrine.horaires|linebreaks }}</p>
-<a href="{% url 'creer_vitrine' %}">Modifier la vitrine</a>
+<a href="{% url 'shop:create_vitrine' %}">Modifier la vitrine</a>
 {% endblock %}

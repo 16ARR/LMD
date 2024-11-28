@@ -1,5 +1,5 @@
 from django import forms
-from models import Vitrine
+from shop.models import Vitrine
 
 
 class VitrineForm(forms.ModelForm):
@@ -13,7 +13,7 @@ class VitrineForm(forms.ModelForm):
             'horaires',
             'adresse'
         ]
-        widgets = {
-            'horaires': forms.Textarea(attrs={'placeholder': 'Ex: Lundi: 9h-18h\nMardi: 10h-19h'}),
-            'adresse': forms.Textarea(attrs={'placeholder': 'Votre adresse complète'}),
-        }
+        # widgets = {
+        #     'horaires': forms.Textarea(attrs={'placeholder': 'Ex: Lundi: 9h-18h\nMardi: 10h-19h'}),
+        #     'adresse': forms.Textarea(attrs={'placeholder': 'Votre adresse complète'}),
+        # }
