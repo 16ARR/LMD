@@ -1,0 +1,28 @@
+
+
+{% extends "base.html" %}
+{%load static%}
+{% block body %}
+
+<head>
+ <link rel="stylesheet" href="Blanche/static/css/style.css">
+</head>
+<body>
+
+<h2>Connexion</h2>
+<form method="post" action="accounts/">
+    {% csrf_token %}
+    <div>
+        <label for="id_username">Email:</label>
+        <input type="text" name="username" id="id_username" required>
+    </div>
+    <div>
+        <label for="id_password">Mot de passe:</label>
+        <input type="password" name="password" id="id_password" required>
+    </div>
+    <button type="submit" class="btn btn-primary">Connexion</button>
+
+    <p><a href="{% url 'accounts:password_reset' %} ">J'ai oublié mon mot de passe</a></p>
+</form>
+</body>
+{% endblock %}

@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+{% block body %}
+<h1>Créer votre vitrine</h1>
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit" class="btn btn-primary">Créer</button>
+</form>
+<a href="{% url 'vitrine' %}">Retour</a>
+{% endblock %}

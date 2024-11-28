@@ -15,19 +15,19 @@
 <!-- Navigation-->
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <div class="container px-4 px-lg-5">
-        <a class="navbar-brand" href="{% url 'home' %}">La Marmite Digitale</a>
+        <a class="navbar-brand" href="{% url 'index' %}">La Marmite Digitale</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
                 aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span
                 class="navbar-toggler-icon"></span></button>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4">
                 {% if request.user.is_authenticated %}
-                <li class="nav-item"><a class="nav-link active" aria-current="page" href="{% url 'logout' %}">Déconnexion</a>
+                <li class="nav-item"><a class="nav-link active" aria-current="page" href="{% url 'accounts:logout' %}">Déconnexion</a>
                 </li>
                 {% else %}
-                <li class="nav-item"><a class="nav-link active" aria-current="page" href="{% url 'inscription' %}">Inscription</a>
+                <li class="nav-item"><a class="nav-link active" aria-current="page" href="{% url 'accounts:signup' %}">Inscription</a>
                 </li>
-                <li class="nav-item"><a class="nav-link active" aria-current="page" href="{% url 'login' %}">Connexion</a>
+                <li class="nav-item"><a class="nav-link active" aria-current="page" href="{% url 'accounts:login' %}">Connexion</a>
                 </li>
                 {% endif %}
 
@@ -36,7 +36,7 @@
                     <a class="nav-link active dropdown-toggle" id="navbarDropdown2" href="#" role="button"
                        data-bs-toggle="dropdown" aria-expanded="false">Mon compte</a>
                     <ul class="dropdown-menu" aria-labelledby="navbarDropdown2">
-                        <li><a class="dropdown-item" href="{% url 'profile' %}">Profil</a></li>
+                        <li><a class="dropdown-item" href="{% url 'accounts:profile' %}">Profil</a></li>
                         <li>
                             <hr class="dropdown-divider"/>
                         </li>
@@ -78,36 +78,25 @@
                     </ul>
                 </li>
 
-                <!-- end SAV -->
-                {% if user_profile and user_profile.role == 'gestionnaire' %}
-                </li>
+                <!-- Admin GESTIONNAIRE -->
+                {% if user_profil and user_profil.role == 'gestionnaire' %}
+
                 <li class="nav-item"><a class="nav-link active" aria-current="page" href="{% url 'admin:index' %}">Administration</a>
                 </li>
                 {% endif %}
 
-                {% if request.user.is_superuser %}
-                <!-- Admin Panel -->
 
-                <li class="nav-item dropdown">
-                    <a class="nav-link active dropdown-toggle" id="navbarDropdown4" href="#" role="button"
-                       data-bs-toggle="dropdown" aria-expanded="false">Tâches en attente</a>
-                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown4">
-                        <li><a class="dropdown-item" href="">Echanges en attente</a>
-                        </li>
+                <!-- Vitrine VENDEUR -->
 
-                        <li><a class="dropdown-item" href="">Annonces en attente</a>
-                        </li>
+                {% if user_profile and user_profile.role == 'vendeur' %}
 
-                        <li><a class="dropdown-item" href="">Tickets en attente</a></li>
-
-                    </ul>
+                <li class="nav-item"><a class="nav-link active" aria-current="page" href="{% url 'shop:vitrine' %}">Ma vitrine</a>
                 </li>
-
-                <li class="nav-item"><a class="nav-link active" aria-current="page" href="">Administration
-                    Django</a></li>
-
-                <!--end Admin Panel -->
                 {% endif %}
+
+
+
+
             </ul>
             <form class="d-flex">
                 <a href="" class="btn btn-outline-dark">
