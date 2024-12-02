@@ -15,14 +15,15 @@ ALLOWED_HOSTS = env.list('DJANGO_ALLOWED_HOSTS', default=[])
 
 # Applications
 INSTALLED_APPS = [
+    'accounts',
+    'shop',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'accounts',
-    'shop',
+
 ]
 
 MIDDLEWARE = [
@@ -99,4 +100,13 @@ LOGOUT_REDIRECT_URL = '/'
 AUTH_USER_MODEL = 'accounts.CustomUser'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
+# Email
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = 'cesar.glabeke@2025.icam.fr'
+EMAIL_HOST_PASSWORD = 'Clbvu2002@#'
+# DEFAULT_FROM_EMAIL = 'noreply<comptetank02@gmail.com>'
