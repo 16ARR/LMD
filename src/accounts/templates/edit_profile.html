@@ -1,26 +1,27 @@
 {% extends "base.html" %}
 {% block body %}
+<div class="container mt-5">
+    <div class="card p-4 shadow-sm">
+        <h1 class="text-center mb-4">Modifier votre profil</h1>
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            {{ form.as_p }}
 
-<div class="profile-edit-container" style="max-width: 800px; margin: auto; padding: 20px; background-color: #f9f9f9; border-radius: 8px;">
-    <h1 style="text-align: center;">Modifier votre profil</h1>
+            <div class="text-center mb-3">
+                {% if user.profile_picture %}
+                    <label>Prévisualisation de la photo :</label>
+                    <img id="imagePreview" src="{{ user.profile_picture.url }}" alt="Prévisualisation" class="img-fluid rounded-circle" style="max-width: 200px;">
+                {% else %}
+                    <p>Pas de photo de profil.</p>
+                {% endif %}
+            </div>
 
-    <form method="post" enctype="multipart/form-data" style="margin-top: 20px;">
-        {% csrf_token %}
-        {{ form.as_p }}
-
-        <div style="text-align: center; margin-bottom: 20px;">
-            {% if user.profile_picture %}
-                <label>Prévisualisation de la photo :</label>
-                <img id="imagePreview" src="{{ user.profile_picture.url }}" alt="Prévisualisation" style="max-width: 200px; border-radius: 50%; display: block; margin: auto;">
-            {% else %}
-                <p>Pas de photo de profil.</p>
-            {% endif %}
-        </div>
-        <div style="text-align: center;">
-            <button type="submit" class="btn btn-primary" style="margin-right: 10px;">Sauvegarder</button>
-            <a href="{% url 'profile' %}" class="btn btn-secondary">Annuler</a>
-        </div>
-    </form>
+            <div class="d-flex justify-content-center">
+                <button type="submit" class="btn btn-primary me-3">Sauvegarder</button>
+                <a href="{% url 'profile' %}" class="btn btn-secondary">Annuler</a>
+            </div>
+        </form>
+    </div>
 </div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.js"></script>
@@ -29,35 +30,36 @@
     const imagePreview = document.getElementById('imagePreview');
     let cropper;
 
-    input.addEventListener('change', (event) => {
-        const file = event.target.files[0];
-        if (file) {
-            const reader = new FileReader();
-            reader.onload = () => {
-                imagePreview.src = reader.result;
-                if (cropper) cropper.destroy();
-                cropper = new Cropper(imagePreview, {
-                    aspectRatio: 1,
-                    viewMode: 1,
-                    preview: '.img-preview',
+    if (input) {
+        input.addEventListener('change', (event) => {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = () => {
+                    imagePreview.src = reader.result;
+                    if (cropper) cropper.destroy();
+                    cropper = new Cropper(imagePreview, {
+                        aspectRatio: 1,
+                        viewMode: 1,
+                        preview: '.img-preview',
+                    });
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+
+        document.querySelector('form').addEventListener('submit', (event) => {
+            if (cropper) {
+                event.preventDefault();
+                cropper.getCroppedCanvas().toBlob((blob) => {
+                    const fileInput = new File([blob], 'cropped_image.png', { type: 'image/png' });
+                    const dataTransfer = new DataTransfer();
+                    dataTransfer.items.add(fileInput);
+                    input.files = dataTransfer.files;
+                    event.target.submit();
                 });
-            };
-            reader.readAsDataURL(file);
-        }
-    });
-
-    document.querySelector('form').addEventListener('submit', (event) => {
-        if (cropper) {
-            event.preventDefault();
-            cropper.getCroppedCanvas().toBlob((blob) => {
-                const fileInput = new File([blob], 'cropped_image.png', { type: 'image/png' });
-                const dataTransfer = new DataTransfer();
-                dataTransfer.items.add(fileInput);
-                input.files = dataTransfer.files;
-                event.target.submit();
-            });
-        }
-    });
+            }
+        });
+    }
 </script>
-
 {% endblock %}
