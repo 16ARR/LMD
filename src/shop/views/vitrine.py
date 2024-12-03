@@ -3,7 +3,7 @@ from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect, get_object_or_404
 
 from shop.models import Vitrine
-from shop.forms import VitrineForm
+from shop.forms import VitrineForm, VitrineEditForm
 
 
 @login_required
@@ -30,3 +30,16 @@ def create_vitrine(request):
     else:
         form = VitrineForm()
     return render(request, 'shop/create_vitrine.html', {'form': form})
+
+@login_required
+def edit_vitrine(request):
+    """Permet à l'utilisateur de modifier sa vitrine."""
+    vitrine = get_object_or_404(Vitrine, user=request.user)
+    if request.method == 'POST':
+        form = VitrineEditForm(request.POST, request.FILES, instance=vitrine)
+        if form.is_valid():
+            form.save()
+            return redirect('shop:vitrine')  # Redirection vers la vitrine après modification
+    else:
+        form = VitrineEditForm(instance=vitrine)
+    return render(request, 'shop/edit_vitrine.html', {'form': form})

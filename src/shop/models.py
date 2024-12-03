@@ -4,7 +4,11 @@ from Blanche import settings
 
 
 # Create your models here.
+class Tag(models.Model):
+    name = models.CharField(max_length=50, unique=True)
 
+    def __str__(self):
+        return self.name
 
 class Vitrine(models.Model):
     user = models.OneToOneField(
@@ -13,11 +17,14 @@ class Vitrine(models.Model):
         related_name='vitrine',
     )
     nom_boutique = models.CharField(max_length=255)
-    description_boutique = models.CharField(max_length=255)
+    description_boutique = models.TextField()
     nom_proprietaire = models.CharField(max_length=255)
-    description_proprietaire = models.CharField(max_length=255)
+    description_proprietaire = models.TextField()
     # horaires = models.CharField(max_length=255)  # Clé-valeur pour lundi à dimanche
     adresse = models.CharField(max_length=255)
+    tags=models.ManyToManyField(Tag, blank=True)
 
     def __str__(self):
         return self.nom_boutique
+
+
