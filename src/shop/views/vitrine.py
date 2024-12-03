@@ -21,10 +21,17 @@ def vitrine_detail(request, slug_vitrine):
     vitrine = get_object_or_404(Vitrine, slug_vitrine=slug_vitrine)
     return render(request, 'shop/vitrine_detail.html', {'vitrine': vitrine})
 
+
 def all_vitrines(request):
     vitrines = Vitrine.objects.all()
-    return render(request, 'shop/all_vitrines.html', {'vitrines': vitrines})
+    sort_order = request.GET.get('sort', 'asc')
 
+    if sort_order == 'asc':
+        vitrines = vitrines.order_by('nom_boutique')
+    elif sort_order == 'desc':
+        vitrines = vitrines.order_by('-nom_boutique')
+
+    return render(request, 'shop/all_vitrines.html', {'vitrines': vitrines})
 
 
 @login_required

@@ -2,19 +2,27 @@
 
 {% block body %}
 <h1>Toutes les vitrines</h1>
-<div class="vitrines-container">
+
+<form method="get">
+    <label for="sort">Trier par :</label>
+    <select name="sort" id="sort" onchange="this.form.submit()">
+        <option value="asc" {% if request.GET.sort == 'asc' %}selected{% endif %}>Ordre alphabétique (A-Z)</option>
+        <option value="desc" {% if request.GET.sort == 'desc' %}selected{% endif %}>Ordre alphabétique (Z-A)</option>
+    </select>
+</form>
+
+<div class="vitrines-container" style="display: flex; flex-wrap: wrap; gap: 20px; justify-content: center; margin-top: 20px;">
     {% for vitrine in vitrines %}
-    <div class="vitrine-card">
-        <div class="initial">
-            {{ vitrine.nom_proprietaire|slice:":1" }}
-        </div>
-        <div class="overlay">
-            <a href="{% url 'shop:vitrine_detail' vitrine.slug %}">
-                <button>Visitez</button>
+    <div class="vitrine-card" style="background-color: #f9f9f9; padding: 20px; width: 250px; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.2); text-align: center;">
+        {% if vitrine.slug %}
+            <a href="{% url 'shop:vitrine_detail' vitrine.slug %}" style="text-decoration: none; color: #333; display: block;">
+                <h3 style="font-size: 18px; font-weight: bold; color: #333;">{{ vitrine.nom_boutique }}</h3>
             </a>
-        </div>
+        {% else %}
+            <h3 style="font-size: 18px; font-weight: bold; color: #333;">{{ vitrine.nom_boutique }}</h3>
+        {% endif %}
     </div>
     {% endfor %}
-
 </div>
+
 {% endblock %}
