@@ -1,6 +1,7 @@
 from django.contrib.auth import login
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect, get_object_or_404
+from django.db.models import Q
 
 from shop.models import Vitrine
 from shop.forms import VitrineForm, VitrineEditForm
@@ -43,3 +44,17 @@ def edit_vitrine(request):
     else:
         form = VitrineEditForm(instance=vitrine)
     return render(request, 'shop/edit_vitrine.html', {'form': form})
+
+def search_results(request):
+    query = request.GET.get('q')
+    results = Vitrine.objects.filter(
+        Q(nom_boutique__icontains=query) |
+        Q(description_boutique__icontains=query) |
+        Q(tags__name__icontains=query)
+    ).distinct()
+    return render(request, 'shop/search_results.html', {'query': query, 'results': results})
+
+
+def vitrine_detail(request, slug_vitrine):
+    vitrine = Vitrine.objects.get(slug_vitrine=slug_vitrine)
+    return render(request, 'shop/vitrine_detail.html', {'vitrine': vitrine})

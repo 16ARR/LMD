@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% block body %}
+<h1>Résultats pour "{{ query }}"</h1>
+{% if results %}
+    <ul>
+        {% for result in results %}
+        <li><a href="{% url 'shop:vitrine_detail' result.id %}">{{ result.nom_boutique }}</a></li>
+        {% endfor %}
+    </ul>
+{% else %}
+    <p>Aucun résultat trouvé.</p>
+{% endif %}
+{% endblock %}
