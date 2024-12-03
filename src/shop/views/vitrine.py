@@ -54,7 +54,6 @@ def search_results(request):
     ).distinct()
     return render(request, 'shop/search_results.html', {'query': query, 'results': results})
 
-
 def vitrine_detail(request, slug_vitrine):
-    vitrine = Vitrine.objects.get(slug_vitrine=slug_vitrine)
+    vitrine = get_object_or_404(Vitrine, slug_vitrine=slug_vitrine)
     return render(request, 'shop/vitrine_detail.html', {'vitrine': vitrine})

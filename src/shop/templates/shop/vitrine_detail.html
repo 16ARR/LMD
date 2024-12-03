@@ -1,10 +1,31 @@
 {% extends "base.html" %}
 
-{% block content %}
-  <h1>{{ vitrine.nom_boutique }}</h1>
-  <p>{{ vitrine.description_boutique }}</p>
-  <p>Propriétaire: {{ vitrine.nom_proprietaire }}</p>
-  <p>Adresse: {{ vitrine.adresse }}</p>
-  <p>Tags: {{ vitrine.tags }}</p>
-  <a href="{% url 'shop:vitrine' %}">Retour à toutes les vitrines</a>
-{% endblock %}s
+{% block body %}
+<div class="vitrine-detail-container" style="max-width: 900px; margin: auto; padding: 20px; background-color: #f9f9f9; border-radius: 8px;">
+    <h1 style="text-align: center;">{{ vitrine.nom_boutique }}</h1>
+
+    <div class="vitrine-description" style="margin-top: 20px;">
+        <h3>Description</h3>
+        <p>{{ vitrine.description_boutique }}</p>
+    </div>
+
+    <div class="vitrine-owner" style="margin-top: 20px;">
+        <h3>Propriétaire</h3>
+        <p>{{ vitrine.nom_proprietaire }}</p>
+    </div>
+
+    <div class="vitrine-address" style="margin-top: 20px;">
+        <h3>Adresse</h3>
+        <p>{{ vitrine.adresse }}</p>
+    </div>
+
+    <div class="vitrine-tags" style="margin-top: 20px;">
+        <h3>Tags</h3>
+        <p>{{ vitrine.tags }}</p>
+    </div>
+
+    <div class="vitrine-action" style="margin-top: 30px; text-align: center;">
+        <a href="{% url 'shop:vitrine' %}" class="btn btn-secondary">Retour à toutes les vitrines</a>
+    </div>
+</div>
+{% endblock %}
