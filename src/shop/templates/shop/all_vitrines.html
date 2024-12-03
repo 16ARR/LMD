@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+
+{% block body %}
+<h1>Toutes les vitrines</h1>
+<div class="vitrines-container">
+    {% for vitrine in vitrines %}
+    <div class="vitrine-card">
+        <div class="initial">
+            {{ vitrine.nom_proprietaire|slice:":1" }}
+        </div>
+        <div class="overlay">
+            <a href="{% url 'shop:vitrine_detail' vitrine.slug %}">
+                <button>Visitez</button>
+            </a>
+        </div>
+    </div>
+    {% endfor %}
+
+</div>
+{% endblock %}

@@ -2,7 +2,7 @@
 
 from django.urls import path
 
-from shop.views import vitrine, create_vitrine, edit_vitrine, search_results, vitrine_detail
+from shop.views import vitrine, create_vitrine, edit_vitrine, search_results, vitrine_detail, all_vitrines
 app_name = "shop"
 urlpatterns = [
 
@@ -12,6 +12,8 @@ urlpatterns = [
     path('edit_vitrine/', edit_vitrine, name='edit_vitrine'),
     path('search/', search_results, name='search_results'),
     path('vitrine/<slug:slug_vitrine>/', vitrine_detail, name='vitrine_detail'),
+    path('all_vitrines/', all_vitrines, name='all_vitrines'),
+
 
 
 

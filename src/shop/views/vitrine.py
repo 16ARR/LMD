@@ -7,6 +7,26 @@ from shop.models import Vitrine
 from shop.forms import VitrineForm, VitrineEditForm
 
 
+
+def search_results(request):
+    query = request.GET.get('q')
+    results = Vitrine.objects.filter(
+        Q(nom_boutique__icontains=query) |
+        Q(description_boutique__icontains=query) |
+        Q(tags__name__icontains=query)
+    ).distinct()
+    return render(request, 'shop/search_results.html', {'query': query, 'results': results})
+
+def vitrine_detail(request, slug_vitrine):
+    vitrine = get_object_or_404(Vitrine, slug_vitrine=slug_vitrine)
+    return render(request, 'shop/vitrine_detail.html', {'vitrine': vitrine})
+
+def all_vitrines(request):
+    vitrines = Vitrine.objects.all()
+    return render(request, 'shop/all_vitrines.html', {'vitrines': vitrines})
+
+
+
 @login_required
 def vitrine(request):
     if not request.user.role == 'vendeur':
@@ -44,16 +64,3 @@ def edit_vitrine(request):
     else:
         form = VitrineEditForm(instance=vitrine)
     return render(request, 'shop/edit_vitrine.html', {'form': form})
-
-def search_results(request):
-    query = request.GET.get('q')
-    results = Vitrine.objects.filter(
-        Q(nom_boutique__icontains=query) |
-        Q(description_boutique__icontains=query) |
-        Q(tags__name__icontains=query)
-    ).distinct()
-    return render(request, 'shop/search_results.html', {'query': query, 'results': results})
-
-def vitrine_detail(request, slug_vitrine):
-    vitrine = get_object_or_404(Vitrine, slug_vitrine=slug_vitrine)
-    return render(request, 'shop/vitrine_detail.html', {'vitrine': vitrine})
