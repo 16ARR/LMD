@@ -88,7 +88,7 @@
                 {% endif %}
 
 
-<!--                 Vitrine VENDEUR-->
+                <!-- Vitrine VENDEUR-->
 
                 {% if user_profile and user_profile.role == 'vendeur' %}
 
@@ -115,11 +115,16 @@
     </div>
 </nav>
 <!-- Header-->
-<header class="bg-light bg-gradient py-5 border border-secondary">
-    <div class="container px-4 px-lg-5 my-5">
-        <div class="text-center text-black">
-            <h1 class="display-4 fw-bolder">La Marmite Digitale</h1>
-            <p class="lead fw-normal text-black-50 mb-0">Markeplace pour vos vêtements</p>
+<header class="bg-light bg-gradient border border-secondary">
+    <div class="container">
+        <div class="d-flex align-items-center justify-content-between">
+            <div class="text-center text-black">
+                <h1 class="fw-bolder">La Marmite Digitale</h1>
+                <p class="lead fw-normal text-black-50 mb-0">Markeplace pour vos vêtements</p>
+            </div>
+            <div>
+                    <img src="{% static 'assets/logo_lmd.png' %}" class="img-fluid" alt="Logo" style="max-width: 150px;">
+            </div>
         </div>
     </div>
 </header>

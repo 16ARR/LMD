@@ -465,6 +465,8 @@ legend + * {
   -webkit-appearance: button;
 }
 
+
+
 output {
   display: inline-block;
 }
@@ -599,7 +601,8 @@ progress {
 
 .img-fluid {
   max-width: 100%;
-  height: auto;
+  /*height: auto;*/
+
 }
 
 .img-thumbnail {
@@ -607,8 +610,8 @@ progress {
   background-color: #fff;
   border: 1px solid var(--bs-border-color);
   border-radius: 0.375rem;
-  max-width: 100%;
-  height: auto;
+  width: 10%;
+  height: 10%;
 }
 
 .figure {
