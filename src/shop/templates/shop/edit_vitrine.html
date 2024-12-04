@@ -1,13 +1,13 @@
 {% extends "base.html" %}
 {% block body %}
 <div class="vitrine-form-container" style="max-width: 800px; margin: auto; background-color: #f9f9f9; padding: 20px; border-radius: 8px;">
-    <h1 style="text-align: center;">Créer votre vitrine</h1>
+    <h1 style="text-align: center;">Modifier votre vitrine</h1>
     <form method="post" enctype="multipart/form-data" style="margin-top: 20px;">
         {% csrf_token %}
         {{ form.as_p }}
         <div style="text-align: center; margin-top: 20px;">
-            <button type="submit" class="btn btn-primary" style="margin-right: 10px;">Créer</button>
-            <a href="{% url 'shop:vitrine' %}" class="btn btn-secondary">Retour</a>
+            <button type="submit" class="btn btn-primary" style="margin-right: 10px;">Sauvegarder</button>
+            <a href="{% url 'shop:vitrine' %}" class="btn btn-secondary">Annuler</a>
         </div>
     </form>
 </div>

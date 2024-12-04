@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% block body %}
+<div class="container mt-5">
+    <h1 class="text-center mb-4">Résultats pour "{{ query }}"</h1>
+    {% if results %}
+        <ul class="list-group">
+            {% for result in results %}
+                <li class="list-group-item">
+                    <a href="{% url 'shop:vitrine_detail' result.slug_vitrine %}" class="text-decoration-none">
+                        {{ result.nom_boutique }}
+                    </a>
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p class="text-center mt-4 text-muted">Aucun résultat trouvé.</p>
+    {% endif %}
+</div>
+{% endblock %}

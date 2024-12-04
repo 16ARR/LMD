@@ -1,6 +1,7 @@
 
 from django.contrib import admin
-from .models import CustomUser  # Assurez-vous de l'importer correctement
+from .models import CustomUser
+from shop.models import Tag # Assurez-vous de l'importer correctement
 
 class CustomUserAdmin(admin.ModelAdmin):
     list_display = ('username','email', 'first_name', 'last_name','role','formatted_date_joined')  # Afficher le champ role
@@ -40,4 +41,4 @@ class CustomUserAdmin(admin.ModelAdmin):
         super().save_model(request, obj, form, change)
 
 
-admin.site.register(CustomUser, CustomUserAdmin)
+admin.site.register(CustomUser, CustomUserAdmin,)

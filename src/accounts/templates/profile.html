@@ -1,39 +1,35 @@
-
 {% extends "base.html" %}
-{%load static%}
+{% load static %}
 {% block body %}
 
-<!-- templates/profile.html -->
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-    <meta charset="UTF-8">
-    <title>Profil Utilisateur</title>
-</head>
-<body>
-    <h1>Bienvenue, {{ user.first_name }}!</h1>
-    {% if user.profile_picture %}
-<img src="{{ user.profile_picture.url }}" alt="Photo de profil" style="width: 150px; height: 150px; object-fit: cover; border-radius: 50%;">
-    <p><strong>Nom :</strong> {{ user.first_name }} {{ user.last_name }}</p>
-<p><strong>Email :</strong> {{ user.email }}</p>
-{% else %}
-    <p>Pas de photo de profil.</p>
-{% endif %}
-    <p>Email: {{ user.email }}</p>
-    <p>Nom d'utilisateur: {{ user.username }}</p>
-    <p>Nom: {{ user.last_name }}</p>
-    <p>Prénom: {{ user.first_name }}</p>
-    <p>Date de naissance: {{ user.date_of_birth|date:"d/m/Y" }}</p>
-    <p>Téléphone: {{ user.phone_number }}</p>
+<div class="profile-container" style="max-width: 800px; margin: auto; padding: 20px; background-color: #f9f9f9; border-radius: 8px;">
+    <h1 style="text-align: center;">Bienvenue, {{ user.first_name }}!</h1>
 
+    <div style="display: flex; align-items: center; gap: 20px; margin-bottom: 20px;">
+        {% if user.profile_picture %}
+            <img src="{{ user.profile_picture.url }}" alt="Photo de profil" style="width: 150px; height: 150px; object-fit: cover; border-radius: 50%;">
+        {% else %}
+            <div style="width: 150px; height: 150px; background-color: #ccc; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 24px;">
+                <span>Pas d'image</span>
+            </div>
+        {% endif %}
 
-    <a href="{% url 'accounts:edit_profile' %}" class="btn btn-primary">Modifier le profil</a>
-<form method="post" action="/logout/">
-    {% csrf_token %}
-    <button type="submit" class="btn btn-danger">Déconnexion</button>
-</form>
+        <div>
+            <p><strong>Nom :</strong> {{ user.first_name }} {{ user.last_name }}</p>
+            <p><strong>Email :</strong> {{ user.email }}</p>
+            <p><strong>Nom d'utilisateur :</strong> {{ user.username }}</p>
+            <p><strong>Date de naissance :</strong> {{ user.date_of_birth|date:"d/m/Y" }}</p>
+            <p><strong>Téléphone :</strong> {{ user.phone_number }}</p>
+        </div>
+    </div>
 
+    <div style="text-align: center; margin-top: 20px;">
+        <a href="{% url 'accounts:edit_profile' %}" class="btn btn-primary" style="margin-right: 10px;">Modifier le profil</a>
+        <form method="post" action="{% url 'accounts:logout' %}" style="display: inline;">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-danger">Déconnexion</button>
+        </form>
+    </div>
+</div>
 
-</body>
-</html>
 {% endblock %}

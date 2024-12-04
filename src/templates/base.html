@@ -17,114 +17,97 @@
     <div class="container px-4 px-lg-5">
         <a class="navbar-brand" href="{% url 'index' %}">La Marmite Digitale</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
-                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span
-                class="navbar-toggler-icon"></span></button>
+                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4">
                 {% if request.user.is_authenticated %}
-                <li class="nav-item"><a class="nav-link active" aria-current="page" href="{% url 'accounts:logout' %}">Déconnexion</a>
-                </li>
+                    <li class="nav-item"><a class="nav-link active" href="{% url 'accounts:logout' %}">Déconnexion</a></li>
                 {% else %}
-                <li class="nav-item"><a class="nav-link active" aria-current="page" href="{% url 'accounts:signup' %}">Inscription</a>
-                </li>
-                <li class="nav-item"><a class="nav-link active" aria-current="page" href="{% url 'accounts:login' %}">Connexion</a>
-                </li>
+                    <li class="nav-item"><a class="nav-link active" href="{% url 'accounts:signup' %}">Inscription</a></li>
+                    <li class="nav-item"><a class="nav-link active" href="{% url 'accounts:login' %}">Connexion</a></li>
                 {% endif %}
 
                 {% if request.user.is_authenticated %}
-                <li class="nav-item dropdown">
-                    <a class="nav-link active dropdown-toggle" id="navbarDropdown2" href="#" role="button"
-                       data-bs-toggle="dropdown" aria-expanded="false">Mon compte</a>
-                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown2">
-                        <li><a class="dropdown-item" href="{% url 'accounts:profile' %}">Profil</a></li>
-                        <li>
-                            <hr class="dropdown-divider"/>
-                        </li>
-                        <li><a class="dropdown-item" href="">Mettre en vente</a></li>
-                        <li><a class="dropdown-item" href="">Mes commandes / ventes</a></li>
-                    </ul>
-                </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link active dropdown-toggle" id="navbarDropdown2" href="#" role="button"
+                           data-bs-toggle="dropdown">Mon compte</a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="{% url 'accounts:profile' %}">Profil</a></li>
+                            <li><hr class="dropdown-divider"/></li>
+                            <li><a class="dropdown-item" href="">Mettre en vente</a></li>
+                            <li><a class="dropdown-item" href="">Mes commandes / ventes</a></li>
+                        </ul>
+                    </li>
                 {% endif %}
-
-
 
                 <li class="nav-item dropdown">
                     <a class="nav-link active dropdown-toggle" id="navbarDropdown" href="#" role="button"
-                       data-bs-toggle="dropdown" aria-expanded="false">Les Vitrines</a>
-                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                       data-bs-toggle="dropdown">Les Vitrines</a>
+                    <ul class="dropdown-menu">
                         <li><a class="dropdown-item" href="">Par catégories</a></li>
                         <li><a class="dropdown-item" href="">Tous les articles</a></li>
                         <li><a class="dropdown-item" href="">Recommandations</a></li>
-
-
                         {% if request.user.is_authenticated %}
-                        <li><a class="dropdown-item" href="">Recommandations</a></li>
+                            <li><a class="dropdown-item" href="">Recommandations</a></li>
                         {% endif %}
                     </ul>
                 </li>
 
-
-                <!--SAV -->
                 <li class="nav-item dropdown">
                     <a class="nav-link active dropdown-toggle" id="navbarDropdown3" href="#" role="button"
-                       data-bs-toggle="dropdown" aria-expanded="false">Assistance</a>
-                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown3">
+                       data-bs-toggle="dropdown">Assistance</a>
+                    <ul class="dropdown-menu">
                         <li><a class="dropdown-item" href="">Chat</a></li>
-                        <li>
-                            <hr class="dropdown-divider"/>
-                        </li>
+                        <li><hr class="dropdown-divider"/></li>
                         <li><a class="dropdown-item" href="">F.A.Q</a></li>
                         <li><a class="dropdown-item" href="">Historique</a></li>
                     </ul>
                 </li>
 
-                <!-- Admin GESTIONNAIRE -->
-
-
                 {% if user_profil and user_profil.role == 'gestionnaire' %}
-
-                <li class="nav-item"><a class="nav-link active" aria-current="page" href="{% url 'admin:index' %}">Administration</a>
-                </li>
+                    <li class="nav-item"><a class="nav-link active" href="{% url 'admin:index' %}">Administration</a></li>
                 {% endif %}
-
-
-                <!-- Vitrine VENDEUR-->
 
                 {% if user_profile and user_profile.role == 'vendeur' %}
-
-                <li class="nav-item"><a class="nav-link active" aria-current="page" href="{% url 'shop:vitrine' %}">Ma vitrine</a>
-                </li>
+                    <li class="nav-item"><a class="nav-link active" href="{% url 'shop:vitrine' %}">Ma vitrine</a></li>
                 {% endif %}
+            </ul>
+
+            <!-- Formulaire de recherche -->
+            <form class="d-flex me-2" action="{% url 'shop:search_results' %}" method="get">
+                <input class="form-control me-2" type="search" placeholder="Rechercher..." aria-label="Search" name="q">
+                <button class="btn btn-outline-success" type="submit">Rechercher</button>
+            </form>
+
+            <!-- Panier -->
+            <a href="" class="btn btn-outline-dark">
+                <i class="bi-cart-fill me-1"></i>
+                Panier
+                <span class="badge bg-dark text-white ms-1 rounded-pill">
+                    {% if request.user.cart %}{{ request.user.cart.orders.all.count }}{% else %}0{% endif %}
+                </span>
+            </a>
+        </div>
+    </div>
+</nav>
+
 
 
 
 
             </ul>
-            <form class="d-flex">
-                <a href="" class="btn btn-outline-dark">
-                    <i class="bi-cart-fill me-1"></i>
-                    Panier
-                    {% if request.user.cart %}
-                    <span class="badge bg-dark text-white ms-1 rounded-pill">{{ request.user.cart.orders.all.count }}</span>
-                    {% else %}
-                    <span class="badge bg-dark text-white ms-1 rounded-pill">0</span>
-                    {% endif %}
-                </a>
-            </form>
+
         </div>
     </div>
 </nav>
 <!-- Header-->
-<header class="bg-light bg-gradient border border-secondary">
-    <div class="container">
-        <div class="d-flex align-items-center justify-content-between">
-            <div class="text-center text-black">
-                <h1 class="fw-bolder">La Marmite Digitale</h1>
-                <p class="lead fw-normal text-black-50 mb-0">Markeplace pour vos vêtements</p>
-            </div>
-            <div>
-                    <img src="{% static 'assets/logo_lmd.png' %}" class="img-fluid" alt="Logo" style="max-width: 150px;">
-            </div>
+<header class="bg-light bg-gradient py-5 border border-secondary">
+    <div class="container px-4 px-lg-5 my-5">
+        <div class="text-center text-black">
+            <h1 class="display-4 fw-bolder">La Marmite Digitale</h1>
+            <p class="lead fw-normal text-black-50 mb-0">Markeplace pour vos vêtements</p>
         </div>
     </div>
 </header>

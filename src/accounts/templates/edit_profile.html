@@ -1,25 +1,28 @@
 {% extends "base.html" %}
 {% block body %}
-<h1>Modifier votre profil</h1>
+<div class="vitrine-detail-container" style="max-width: 900px; margin: auto; padding: 20px; background-color: #f9f9f9; border-radius: 8px;">
 
-<form method="post" enctype="multipart/form-data">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <div>
-        {% if user.profile_picture %}
-        <label>Prévisualisation de la photo :</label>
-        <img id="imagePreview" src="{{ user.profile_picture.url }}" alt="Prévisualisation" style="max-width: 200px;">
-        {% else %}
-    <p>Pas de photo de profil.</p>
-{% endif %}
-    </div>
-    <div>
-        <label for="profilePictureInput">Photo de profil</label>
-        <input type="file" id="profilePictureInput" name="profile_picture" accept="image/*">
-    </div>
-    <button type="submit">Sauvegarder</button>
-    <a href="{% url 'profile' %}">Annuler</a>
-</form>
+        <h1 class="text-center mb-4">Modifier votre profil</h1>
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            {{ form.as_p }}
+
+            <div class="text-center mb-3">
+                {% if user.profile_picture %}
+                    <label>Prévisualisation de la photo :</label>
+                    <img id="imagePreview" src="{{ user.profile_picture.url }}" alt="Prévisualisation" class="img-fluid rounded-circle" style="max-width: 200px;">
+                {% else %}
+                    <p>Pas de photo de profil.</p>
+                {% endif %}
+            </div>
+
+            <div class="d-flex justify-content-center">
+                <button type="submit" class="btn btn-primary me-3">Sauvegarder</button>
+                <a href="{% url 'profile' %}" class="btn btn-secondary">Annuler</a>
+            </div>
+        </form>
+
+</div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.js"></script>
 <script>
@@ -27,32 +30,36 @@
     const imagePreview = document.getElementById('imagePreview');
     let cropper;
 
-    input.addEventListener('change', (event) => {
-        const file = event.target.files[0];
-        if (file) {
-            const reader = new FileReader();
-            reader.onload = () => {
-                imagePreview.src = reader.result;
-                if (cropper) cropper.destroy();
-                cropper = new Cropper(imagePreview, {
-                    aspectRatio: 1,
-                    viewMode: 1,
-                });
-            };
-            reader.readAsDataURL(file);
-        }
-    });
+    if (input) {
+        input.addEventListener('change', (event) => {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = () => {
+                    imagePreview.src = reader.result;
+                    if (cropper) cropper.destroy();
+                    cropper = new Cropper(imagePreview, {
+                        aspectRatio: 1,
+                        viewMode: 1,
+                        preview: '.img-preview',
+                    });
+                };
+                reader.readAsDataURL(file);
+            }
+        });
 
-    document.querySelector('form').addEventListener('submit', (event) => {
-        if (cropper) {
-            const canvas = cropper.getCroppedCanvas();
-            canvas.toBlob((blob) => {
-                const fileInput = new File([blob], 'cropped_image.png', { type: 'image/png' });
-                const dataTransfer = new DataTransfer();
-                dataTransfer.items.add(fileInput);
-                input.files = dataTransfer.files;
-            });
-        }
-    });
+        document.querySelector('form').addEventListener('submit', (event) => {
+            if (cropper) {
+                event.preventDefault();
+                cropper.getCroppedCanvas().toBlob((blob) => {
+                    const fileInput = new File([blob], 'cropped_image.png', { type: 'image/png' });
+                    const dataTransfer = new DataTransfer();
+                    dataTransfer.items.add(fileInput);
+                    input.files = dataTransfer.files;
+                    event.target.submit();
+                });
+            }
+        });
+    }
 </script>
 {% endblock %}
