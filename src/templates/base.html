@@ -42,17 +42,8 @@
                     </li>
                 {% endif %}
 
-                <li class="nav-item dropdown">
-                    <a class="nav-link active dropdown-toggle" id="navbarDropdown" href="#" role="button"
-                       data-bs-toggle="dropdown">Les Vitrines</a>
-                    <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" href="">Par catégories</a></li>
-                        <li><a class="dropdown-item" href="">Tous les articles</a></li>
-                        <li><a class="dropdown-item" href="">Recommandations</a></li>
-                        {% if request.user.is_authenticated %}
-                            <li><a class="dropdown-item" href="">Recommandations</a></li>
-                        {% endif %}
-                    </ul>
+                <li class="nav-item ">
+                    <a class="nav-link active" href="{% url 'shop:all_vitrines' %}" role="button">Les Vitrines</a>
                 </li>
 
                 <li class="nav-item dropdown">
@@ -66,13 +57,19 @@
                     </ul>
                 </li>
 
-                {% if user_profil and user_profil.role == 'gestionnaire' %}
-                    <li class="nav-item"><a class="nav-link active" href="{% url 'admin:index' %}">Administration</a></li>
+                {% if user_profile and user_profile.role == 'gestionnaire' %}
+                    <li class="nav-item">
+                        <a class="nav-link active" href="{% url 'admin:index' %}">Administration</a>
+                    </li>
                 {% endif %}
 
                 {% if user_profile and user_profile.role == 'vendeur' %}
-                    <li class="nav-item"><a class="nav-link active" href="{% url 'shop:vitrine' %}">Ma vitrine</a></li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="{% url 'shop:vitrine_detail' vitrine.slug_vitrine %}">Ma vitrine</a>
+                    </li>
                 {% endif %}
+
+
             </ul>
 
             <!-- Formulaire de recherche -->

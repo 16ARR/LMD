@@ -3,6 +3,7 @@
 {% block body %}
 <h1>Toutes les vitrines</h1>
 
+<!-- Système de tri -->
 <form method="get">
     <label for="sort">Trier par :</label>
     <select name="sort" id="sort" onchange="this.form.submit()">
@@ -11,19 +12,14 @@
     </select>
 </form>
 
+<!-- Vitrines affichées -->
 <div class="vitrines-container" style="display: flex; flex-wrap: wrap; gap: 20px; justify-content: center; margin-top: 20px;">
     {% for vitrine in vitrines %}
-    {% if vitrine.slug %}
-    <a href="{% url 'shop:vitrine_detail' vitrine.slug %}" style="text-decoration: none; color: #333; display: block;">
-        <div class="vitrine-card" style="background-color: #f9f9f9; padding: 20px; width: 250px; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); text-align: center;">
-            <h3 style="font-size: 18px; font-weight: bold; color: #333;">{{ vitrine.nom_boutique }}</h3>
-        </div>
-    </a>
-    {% else %}
     <div class="vitrine-card" style="background-color: #f9f9f9; padding: 20px; width: 250px; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); text-align: center;">
-        <h3 style="font-size: 18px; font-weight: bold; color: #333;">{{ vitrine.nom_boutique }}</h3>
+        <a href="{% url 'shop:vitrine_detail' vitrine.slug_vitrine %}" style="font-size: 18px; font-weight: bold; color: #333;">
+            {{ vitrine.nom_boutique }}
+        </a>
     </div>
-    {% endif %}
     {% endfor %}
 </div>
 
