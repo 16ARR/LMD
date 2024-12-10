@@ -1,4 +1,6 @@
 from django.urls import path
+from django.conf import settings
+from django.conf.urls.static import static
 from .views import signup, user_logout, edit_profile, profile, PasswordReset, PasswordResetDone, PasswordResetConfirm, PasswordResetComplete
 from django.contrib.auth import views as auth_views
 
@@ -18,3 +20,6 @@ urlpatterns = [
     path('reset/done/', PasswordResetComplete.as_view(), name='password_reset_complete'),
 
 ]
+
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
