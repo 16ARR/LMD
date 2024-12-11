@@ -3,6 +3,7 @@ from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect, get_object_or_404
 from django.db.models import Q
 
+from accounts.models import CustomUser
 from shop.models import Vitrine
 from shop.forms import VitrineForm, VitrineEditForm
 
@@ -19,7 +20,15 @@ def search_results(request):
 
 def vitrine_detail(request, slug_vitrine):
     vitrine = get_object_or_404(Vitrine, slug_vitrine=slug_vitrine)
-    return render(request, 'shop/vitrine_detail.html', {'vitrine': vitrine})
+    is_owner = (request.user == vitrine.user)
+
+    return render(request, 'shop/vitrine_detail.html', {
+        'vitrine': vitrine,
+        'is_owner': is_owner,  # Passez cette information au template
+    })
+
+
+
 
 
 def all_vitrines(request):

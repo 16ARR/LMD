@@ -1,6 +1,8 @@
+from django.contrib.auth.models import User
 from django.db import models
 from django.utils.text import slugify
 from Blanche import settings
+from accounts.models import CustomUser
 
 
 class Tag(models.Model):
@@ -11,11 +13,7 @@ class Tag(models.Model):
 
 
 class Vitrine(models.Model):
-    user = models.OneToOneField(
-        settings.AUTH_USER_MODEL,
-        on_delete=models.CASCADE,
-        related_name='vitrine',
-    )
+    user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='vitrine',)
     nom_boutique = models.CharField(max_length=255)
     slug_vitrine = models.SlugField(max_length=255, unique=True, blank=True)
     description_boutique = models.TextField()
@@ -23,6 +21,7 @@ class Vitrine(models.Model):
     description_proprietaire = models.TextField()
     adresse = models.CharField(max_length=255)
     tags = models.ManyToManyField(Tag, blank=True)
+
 
     def save(self, *args, **kwargs):
         if not self.slug_vitrine:

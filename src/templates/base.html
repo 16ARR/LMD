@@ -36,7 +36,9 @@
                         <ul class="dropdown-menu">
                             <li><a class="dropdown-item" href="{% url 'accounts:profile' %}">Profil</a></li>
                             <li><hr class="dropdown-divider"/></li>
-                            <li><a class="dropdown-item" href="">Mettre en vente</a></li>
+                            {% if user_profile.role = True %}
+                            <li><a class="dropdown-item" href="{% url 'marketplace:create' %}">Mettre en vente</a></li>
+                            {% endif %}
                             <li><a class="dropdown-item" href="">Mes commandes / ventes</a></li>
                         </ul>
                     </li>
@@ -65,10 +67,9 @@
 
                 {% if user_profile and user_profile.role == 'vendeur' %}
                     <li class="nav-item">
-                        <a class="nav-link active" href="{% url 'shop:vitrine_detail' vitrine.slug_vitrine %}">Ma vitrine</a>
+                        <a class="nav-link active" href="{% url 'shop:vitrine' %}">Ma vitrine</a>
                     </li>
                 {% endif %}
-
 
             </ul>
 

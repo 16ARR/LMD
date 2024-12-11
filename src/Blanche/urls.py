@@ -10,6 +10,7 @@ urlpatterns = [
     path("", index, name="index"),
     path("accounts/", include("accounts.urls")),
     path("shop/", include("shop.urls")),
+    path("marketplace/", include("marketplace.urls")),
     path('profile/', profile, name='profile'),
 
 ]

@@ -17,6 +17,7 @@ ALLOWED_HOSTS = env.list('DJANGO_ALLOWED_HOSTS', default=[])
 INSTALLED_APPS = [
     'accounts',
     'shop',
+    'marketplace',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -66,9 +67,9 @@ DATABASES = {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'railway',
         'USER': 'postgres',
-        'PASSWORD': 'wbDCrkPQBoINGgFtAWIRSigWmJgqgENV',
+        'PASSWORD': 'RJNrJvsOmYqCuJEKFtZLCRQYRpdXgpgP',
         'HOST': 'junction.proxy.rlwy.net',
-        'PORT': '15407',
+        'PORT': '15231',
     }
 }
 
