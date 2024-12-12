@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% block title %}{{ product.titre }}{% endblock %}
+
+{% block body %}
+<div class="container my-4">
+    <h1 class="mb-3">{{ product.titre }}</h1>
+    <p><strong>Prix :</strong> {{ product.price }} €</p>
+    <p><strong>Description :</strong> {{ product.description }}</p>
+    <p><strong>Catégorie :</strong> {{ product.get_category_display }}</p>
+    <p><strong>Date de publication :</strong> {{ product.published|date:"d/m/Y" }}</p>
+    
+    <div class="mt-4">
+        <h4>Photos :</h4>
+        <img src="{{ product.pics_1.url }}" alt="Photo 1" class="img-thumbnail mb-2" width="300">
+        {% if product.pics_2 %}
+            <img src="{{ product.pics_2.url }}" alt="Photo 2" class="img-thumbnail mb-2" width="300">
+        {% endif %}
+        {% if product.pics_3 %}
+            <img src="{{ product.pics_3.url }}" alt="Photo 3" class="img-thumbnail mb-2" width="300">
+        {% endif %}
+    </div>
+     <a href="{% url 'shop:vitrine_detail' slug=vitrine.slug %}">Voir la vitrine du vendeur</a>
+</div>
+{% endblock %}
