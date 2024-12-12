@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+
+{% block title %}Index{% endblock %}
+
+
+{% block body %}
+
+<div class="row mb-5">
+    <h2 class="text-center">Tous les vêtements</h2>
+
+</div>
+
+<div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center mb-5">
+
+    {% for name, db_name in categories %}
+    <a href="{% url 'shop:all' %}?category={{ db_name }}" class="btn btn-outline-primary">{{ name }}</a>
+    {% endfor %}
+
+</div>
+
+<div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center mb-5">
+
+    <div class="col">
+
+        <a href="{% url 'shop:all' %}" class="btn btn-outline-primary">Supprimer les filtres</a>
+    </div>
+
+</div>
+
+
+
+{% endblock %}
