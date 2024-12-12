@@ -9,6 +9,7 @@ from django.template.defaultfilters import slugify
 
 from Blanche import settings
 from Blanche.settings import AUTH_USER_MODEL
+from accounts.models import CustomUser
 
 # SIZES = [(str(i), str(i)) for i in range(16, 71)]
 # YEARS = [(str(y), str(y)) for y in range(1900, timezone.now().year + 1)]
@@ -22,11 +23,11 @@ def user_directory_path(instance, filename):
 # Create your models here.
 
 class Product(models.Model):
-
+    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, verbose_name="Vendeur", null=True)
     titre = models.CharField(max_length=50, verbose_name="Titre", help_text="50 caractères max")
     description = models.TextField(max_length=200, verbose_name="Description", help_text="200 caractères max")
     slug = models.SlugField(blank=True)
-    user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="product", null=True )
+
     price = models.IntegerField(verbose_name="Prix d'achat")
     category = models.CharField(verbose_name="Catégorie", choices=CATEGORY, max_length=20)
 

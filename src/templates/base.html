@@ -36,7 +36,7 @@
                         <ul class="dropdown-menu">
                             <li><a class="dropdown-item" href="{% url 'accounts:profile' %}">Profil</a></li>
                             <li><hr class="dropdown-divider"/></li>
-                            {% if user_profile.role = True %}
+                            {% if user_profile.role == 'vendeur' %}
                             <li><a class="dropdown-item" href="{% url 'marketplace:create' %}">Mettre en vente</a></li>
                             {% endif %}
                             <li><a class="dropdown-item" href="">Mes commandes / ventes</a></li>
