@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% block body %}
+<h1>Marketplace</h1>
+<form method="get" action="{% url 'marketplace:marketplace' %}">
+    <input type="text" name="q" placeholder="Rechercher un produit" value="{{ query }}">
+    <button type="submit">Rechercher</button>
+</form>
+<ul>
+    {% for product in products %}
+        <li>
+            <h2>{{ product.titre }}</h2>
+            <p>{{ product.description }}</p>
+            <p>Prix : {{ product.price }}€</p>
+            <a href="{% url 'marketplace:detail' product.slug %}">Voir le produit</a>
+        </li>
+    {% empty %}
+        <p>Aucun produit trouvé.</p>
+    {% endfor %}
+</ul>
+{% endblock %}
