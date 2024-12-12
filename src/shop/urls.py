@@ -13,9 +13,6 @@ urlpatterns = [
     path('search/', search_results, name='search_results'),
     path('vitrine/<slug:slug_vitrine>/', vitrine_detail, name='vitrine_detail'),
     path('all_vitrines/', all_vitrines, name='all_vitrines'),
-    path('vitrine_detail/', vitrine_detail, name='vitrine_detail'),
-
-
-
+    path('vitrine/<slug:slug_vitrine>/user/<int:user_id>/', vitrine_detail, name='vitrine_detail'),
 
 ]

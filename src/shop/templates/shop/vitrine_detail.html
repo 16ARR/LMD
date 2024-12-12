@@ -18,10 +18,20 @@
         <h3>Adresse</h3>
         <p>{{ vitrine.adresse }}</p>
     </div>
-
-    <div class="vitrine-tags" style="margin-top: 20px;">
-        <h3>Tags</h3>
-        <p>{{ vitrine.tags }}</p>
+    <div>
+        <h1>Produits de {{ user.username }}</h1>
+        <ul>
+            {% for product in products %}
+                <li>
+                    <h2>{{ product.titre }}</h2>
+                    <p>{{ product.description }}</p>
+                    <p>Prix : {{ product.price }}€</p>
+                    <a href="{% url 'marketplace:detail' product.slug %}">Voir le produit</a>
+                </li>
+            {% empty %}
+                <p>Aucun produit trouvé.</p>
+            {% endfor %}
+        </ul>
     </div>
 
     <div class="vitrine-action" style="margin-top: 30px; text-align: center;">

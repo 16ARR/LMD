@@ -6,8 +6,8 @@ from django.db.models import Q
 from accounts.models import CustomUser
 from shop.models import Vitrine
 from shop.forms import VitrineForm, VitrineEditForm
-
-
+from marketplace.views import marketplace_vendeur
+from marketplace.models import Product
 
 def search_results(request):
     query = request.GET.get('q')
@@ -18,13 +18,26 @@ def search_results(request):
     ).distinct()
     return render(request, 'shop/search_results.html', {'query': query, 'results': results})
 
-def vitrine_detail(request, slug_vitrine):
+
+def vitrine_detail(request, slug_vitrine, user_id):
+    # Récupérer la vitrine à partir du slug
     vitrine = get_object_or_404(Vitrine, slug_vitrine=slug_vitrine)
+
+    # Vérifier si l'utilisateur connecté est le propriétaire de la vitrine
     is_owner = (request.user == vitrine.user)
 
+    # Récupérer l'utilisateur à partir de l'user_id
+    user = get_object_or_404(CustomUser, id=user_id)
+
+    # Obtenir les produits du vendeur correspondant au user_id et à la vitrine
+    products = Product.objects.filter(user=user, activate=True)
+
+    # Passer les données nécessaires au template
     return render(request, 'shop/vitrine_detail.html', {
         'vitrine': vitrine,
-        'is_owner': is_owner,  # Passez cette information au template
+        'is_owner': is_owner,
+        'products': products,
+        'user': user,
     })
 
 
@@ -80,3 +93,4 @@ def edit_vitrine(request):
     else:
         form = VitrineEditForm(instance=vitrine)
     return render(request, 'shop/edit_vitrine.html', {'form': form})
+
