@@ -28,7 +28,7 @@ class Product(models.Model):
     activate = models.BooleanField(default=False, verbose_name="Activé")
 
     class Meta:
-        verbose_name = "Vêtement"
+        verbose_name = "Article"
 
     def __str__(self):
         return f"{self.user} - {self.get_category_display()} - {self.description}"
