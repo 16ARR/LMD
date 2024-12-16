@@ -8,7 +8,7 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('marketplace', '0003_alter_product_user'),
+        ('marketplace', '0003_alter_product_slug'),
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
     ]
 

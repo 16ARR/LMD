@@ -3,22 +3,44 @@
 {% block title %}{{ product.titre }}{% endblock %}
 
 {% block body %}
+<!-- Détail du produit -->
 <div class="container my-4">
-    <h1 class="mb-3">{{ product.titre }}</h1>
-    <p><strong>Prix :</strong> {{ product.price }} €</p>
-    <p><strong>Description :</strong> {{ product.description }}</p>
-    <p><strong>Catégorie :</strong> {{ product.get_category_display }}</p>
-    <p><strong>Date de publication :</strong> {{ product.published|date:"d/m/Y" }}</p>
-    
-    <div class="mt-4">
-        <h4>Photos :</h4>
-        <img src="{{ product.pics_1.url }}" alt="Photo 1" class="img-thumbnail mb-2" width="300">
-        {% if product.pics_2 %}
-            <img src="{{ product.pics_2.url }}" alt="Photo 2" class="img-thumbnail mb-2" width="300">
-        {% endif %}
-        {% if product.pics_3 %}
-            <img src="{{ product.pics_3.url }}" alt="Photo 3" class="img-thumbnail mb-2" width="300">
-        {% endif %}
+    <div class="row">
+        <div class="col-md-6">
+            <div id="product-images" class="carousel slide" data-bs-ride="carousel">
+                <div class="carousel-inner">
+                    <div class="carousel-item active">
+                        <img src="{{ product.pics_1.url }}" class="d-block w-100" alt="Photo 1">
+                    </div>
+                    {% if product.pics_2 %}
+                    <div class="carousel-item">
+                        <img src="{{ product.pics_2.url }}" class="d-block w-100" alt="Photo 2">
+                    </div>
+                    {% endif %}
+                    {% if product.pics_3 %}
+                    <div class="carousel-item">
+                        <img src="{{ product.pics_3.url }}" class="d-block w-100" alt="Photo 3">
+                    </div>
+                    {% endif %}
+                </div>
+                <a class="carousel-control-prev" href="#product-images" role="button" data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Précédent</span>
+                </a>
+                <a class="carousel-control-next" href="#product-images" role="button" data-bs-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Suivant</span>
+                </a>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <h1 class="mb-3">{{ product.titre }}</h1>
+            <p class="text-primary fw-bold">Prix : {{ product.price }} €</p>
+            <p><strong>Catégorie :</strong> {{ product.get_category_display }}</p>
+            <p><strong>Publié le :</strong> {{ product.published|date:"d/m/Y" }}</p>
+            <p><strong>Description :</strong></p>
+            <p>{{ product.description }}</p>
+        </div>
     </div>
 </div>
 {% endblock %}

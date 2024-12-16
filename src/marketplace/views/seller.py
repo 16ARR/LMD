@@ -1,4 +1,5 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.db.models import Q
 from django.urls import reverse_lazy
 from django.views.generic import CreateView
 from django.views.generic import DetailView
@@ -30,20 +31,19 @@ class ProductDetail(DetailView):
         # Obtenir l'article activé correspondant au slug
         return get_object_or_404(Product, slug=self.kwargs.get("slug"), activate=True)
 
-    # def get_context_data(self, **kwargs):
-    #     context = super().get_context_data(**kwargs)
-    #     context["vitrine"] = self.object.user.vitrine  # Si "vitrine" est lié à l'utilisateur
-    #     return context
 
 
 
-# def marketplace(request):
-#     query = request.GET.get('q', '')
-#     if query:
-#         products = Product.objects.filter(activate=True, titre__icontains=query)
-#     else:
-#         products = Product.objects.filter(activate=True)
-#     return render(request, 'marketplace/marketplace.html', {'products': products, 'query': query})
+
+def search_results(request):
+    query = request.GET.get('q')
+    results = Product.objects.filter(
+        Q(titre__icontains=query) |
+        Q(description__icontains=query) |
+        Q(category__icontains=query)
+    ).distinct()
+    return render(request, 'marketplace/search_results.html', {'query': query, 'results': results})
+
 def marketplace(request):
     products = Product.objects.filter(activate=True)
     sort_order = request.GET.get('sort', 'asc')
