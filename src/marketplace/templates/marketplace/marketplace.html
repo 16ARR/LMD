@@ -18,6 +18,7 @@
                 <p class="card-text">{{ product.description|truncatewords:20 }}</p>
                 <p class="text-primary fw-bold">Prix : {{ product.price }} €</p>
                 <a href="{% url 'marketplace:detail' product.slug %}" class="btn btn-outline-primary">Voir le produit</a>
+                <form method="post" action="{% url 'marketplace:add_to_cart' pk=product.pk %}">
             </div>
         </div>
     </div>

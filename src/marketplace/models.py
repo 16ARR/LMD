@@ -1,8 +1,12 @@
+import uuid
+from datetime import timezone
+
 from django.core.mail import send_mail
 from django.urls import reverse
 from django.utils.text import slugify
 from django.db import models
 from Blanche.settings import AUTH_USER_MODEL
+from django.conf import settings
 
 CATEGORY = [("ch", "Chaussures"), ("pa", "Pantalons"), ("ha", "Hauts"),("my","Mythique")]
 
@@ -68,3 +72,55 @@ class Product(models.Model):
         Retourne l'URL absolue du produit.
         """
         return reverse("shop:detail", kwargs={"slug": self.slug, "pk": self.pk})
+
+class Order(models.Model):
+    user = models.ForeignKey(
+        to=settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+        verbose_name="Utilisateur"
+    )
+    product = models.ForeignKey(
+        to='marketplace.Product',
+        on_delete=models.SET_NULL,
+        null=True,
+        verbose_name="Produit"
+    )
+    quantity = models.PositiveIntegerField(default=1, verbose_name="Quantité")
+    reference = models.UUIDField(default=uuid.uuid4, editable=False, verbose_name="Référence")
+    ordered = models.BooleanField(default=False, verbose_name="Commandée")
+    ordered_date = models.DateTimeField(blank=True, null=True, verbose_name="Date de commande")
+    validation = models.BooleanField(default=False, verbose_name="Validation de la commande")
+
+    class Meta:
+        verbose_name = "Commande"
+
+    def __str__(self):
+        return f"{self.user} - {self.product} - {self.ordered_date}"
+
+class Cart(models.Model):
+    user = models.OneToOneField(
+        to=settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+        verbose_name="Utilisateur"
+    )
+    orders = models.ManyToManyField(
+        to=Order,
+        verbose_name="Commandes"
+    )
+    creation_date = models.DateTimeField(auto_now_add=True, verbose_name="Date de création")
+    quantity = models.PositiveIntegerField(default=1, verbose_name="Quantité")
+    class Meta:
+        verbose_name = "Panier"
+
+    def __str__(self):
+        return f"{self.user} - {self.creation_date} -{self.quantity}"
+
+    def user_delete_cart(self):
+        """
+        Supprime toutes les commandes associées au panier, puis supprime le panier.
+        """
+        self.orders.all().delete()
+        self.delete()
+
+
+
