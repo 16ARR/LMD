@@ -25,7 +25,7 @@ class Product(models.Model):
     pics_2 = models.ImageField(verbose_name="Photo 2", blank=True, null=True, upload_to=user_directory_path)
     pics_3 = models.ImageField(verbose_name="Photo 3", blank=True, null=True, upload_to=user_directory_path)
     published = models.DateTimeField(verbose_name="Date de publication", auto_now_add=True)
-    activate = models.BooleanField(default=False, verbose_name="Activé")
+    activate = models.BooleanField(default=True, verbose_name="Activé")
 
     class Meta:
         verbose_name = "Article"
