@@ -43,6 +43,15 @@
             <a href="{% url 'shop:vitrine_detail' product.vitrine product.user.id %}" class="btn btn-primary">Voir la vitrine</a>
 
         </div>
+        <!-- Product actions-->
+            <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
+                <div class="text-center">
+                    <form method="post" action="{% url 'marketplace:add_to_cart' pk=product.pk %}">
+                        {% csrf_token %}
+                        <input type="submit" value="Ajouter au panier" class="btn btn-outline-dark mt-auto">
+                    </form>
+                </div>
+            </div>
     </div>
 </div>
 {% endblock %}

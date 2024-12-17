@@ -1,15 +1,14 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.core.exceptions import ObjectDoesNotExist
 from django.db.models import Q
 from django.urls import reverse_lazy
-from django.views.generic import CreateView
-from django.views.generic import DetailView
-from django.shortcuts import get_object_or_404
-from django.shortcuts import render
-from marketplace.models import Product
-
-
-from marketplace.models import Product
-from shop.models import Vitrine
+from django.views.generic import CreateView, DetailView
+from django.contrib.auth.decorators import login_required
+from django.forms import modelformset_factory
+from django.shortcuts import get_object_or_404, redirect, render
+from django.views.decorators.http import require_POST
+from marketplace.models import Product, Order
+from marketplace.forms import OrderForm
 
 
 class CreateProduct(LoginRequiredMixin, CreateView):
@@ -20,17 +19,7 @@ class CreateProduct(LoginRequiredMixin, CreateView):
               "pics_2", "pics_3"]
 
     def form_valid(self, form):
-        # Associer le produit à l'utilisateur
         form.instance.user = self.request.user
-
-        # Associer le produit à la vitrine de l'utilisateur
-        try:
-            form.instance.vitrine = self.request.user.vitrine
-        except Vitrine.DoesNotExist:
-            # Si l'utilisateur n'a pas de vitrine, rediriger vers la création de vitrine
-            from django.shortcuts import redirect
-            return redirect('shop:create_vitrine')
-
         return super().form_valid(form)
 
 class ProductDetail(DetailView):
@@ -67,6 +56,51 @@ def marketplace(request):
     return render(request, 'marketplace/marketplace.html', {'products': products})
 
 
-def marketplace_vendeur(request, user_id):
+def my_marketplace(request, user_id):
     return Product.objects.filter(user=user_id)
+
+@require_POST
+@login_required
+def add_to_cart(request, pk):
+    product = get_object_or_404(Product, pk=pk)
+    order, created = Order.objects.get_or_create(
+        user=request.user,
+        product=product,
+        ordered=False
+    )
+    if not created:
+        order.quantity += 1
+        order.save()
+    return redirect("marketplace:cart")
+
+@login_required
+def cart_view(request):
+    orders = Order.objects.filter(user=request.user, ordered=False)
+    OrderFormSet = modelformset_factory(Order, fields=("quantity",), extra=0)
+    formset = OrderFormSet(queryset=orders)
+
+    return render(request, "cart/cart.html", {"orders": orders, "formset": formset})
+
+@require_POST
+@login_required
+def validate_cart_view(request):
+    orders = Order.objects.filter(user=request.user, ordered=False)
+    if orders.exists():
+        for order in orders:
+            order.ordered = True
+            order.save()
+    return redirect("marketplace:marketplace")
+
+@require_POST
+@login_required
+def delete_product_from_cart(request, pk):
+    order = get_object_or_404(Order, pk=pk, user=request.user, ordered=False)
+    order.delete()
+    return redirect("marketplace:cart")
+
+@login_required
+@require_POST
+def delete_cart(request):
+    request.user.cart.user_delete_cart()
+    return redirect("marketplace:marketplace")
 

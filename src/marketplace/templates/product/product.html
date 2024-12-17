@@ -2,7 +2,6 @@
 
 {% block title %}{{ product.title }}{% endblock %}
 
-
 {% block body %}
 
 <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
@@ -29,33 +28,22 @@
                     <h5 class="fw-bolder">{{ product.titre }}</h5>
                     <!-- Product price-->
                     {{ product.price }} € <br>
-                    {{ product.description }} € <br>
-
-
-
+                    {{ product.description }} <br>
                 </div>
             </div>
             <!-- Product actions-->
             <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
                 <div class="text-center">
-                    {% if request.user != product.user %}
-                    <form method="post" action="{% url 'shop:add-to-cart' pk=product.pk %}">
+                    <form method="post" action="{% url 'marketplace:add_to_cart' pk=product.pk %}">
                         {% csrf_token %}
-                        <input type="submit" value="Echanger" class="btn btn-outline-dark mt-auto">
-
+                        <input type="submit" value="Ajouter au panier" class="btn btn-outline-dark mt-auto">
                     </form>
-                    {% else %}
-                    <a href="{% url 'shop:delete-product' pk=product.pk %}" class="btn btn-outline-danger">Supprimer</a>
-                    {% endif %}
                 </div>
-
             </div>
         </div>
     </div>
 
-
 </div>
-
 
 
 {% endblock %}
