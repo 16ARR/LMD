@@ -6,7 +6,6 @@ from django.db.models import Q
 from accounts.models import CustomUser
 from shop.models import Vitrine
 from shop.forms import VitrineForm, VitrineEditForm
-from marketplace.views import marketplace_vendeur
 from marketplace.models import Product
 
 def search_results(request):

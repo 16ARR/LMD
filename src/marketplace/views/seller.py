@@ -56,6 +56,6 @@ def marketplace(request):
     return render(request, 'marketplace/marketplace.html', {'products': products})
 
 
-def marketplace_vendeur(request, user_id):
+def my_marketplace(request, user_id):
     return Product.objects.filter(user=user_id)
 
