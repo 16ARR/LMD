@@ -30,6 +30,12 @@ class Product(models.Model):
     pics_3 = models.ImageField(verbose_name="Photo 3", blank=True, null=True, upload_to=user_directory_path)
     published = models.DateTimeField(verbose_name="Date de publication", auto_now_add=True)
     activate = models.BooleanField(default=True, verbose_name="Activé")
+    vitrine = models.ForeignKey(
+        "shop.Vitrine",
+        on_delete=models.CASCADE,
+        related_name="products",  # Permet d'accéder aux produits via vitrine.products
+        null=True
+    )
 
     class Meta:
         verbose_name = "Article"
