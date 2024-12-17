@@ -9,6 +9,7 @@ from marketplace.models import Product
 
 
 from marketplace.models import Product
+from shop.models import Vitrine
 
 
 class CreateProduct(LoginRequiredMixin, CreateView):
@@ -19,7 +20,17 @@ class CreateProduct(LoginRequiredMixin, CreateView):
               "pics_2", "pics_3"]
 
     def form_valid(self, form):
+        # Associer le produit à l'utilisateur
         form.instance.user = self.request.user
+
+        # Associer le produit à la vitrine de l'utilisateur
+        try:
+            form.instance.vitrine = self.request.user.vitrine
+        except Vitrine.DoesNotExist:
+            # Si l'utilisateur n'a pas de vitrine, rediriger vers la création de vitrine
+            from django.shortcuts import redirect
+            return redirect('shop:create_vitrine')
+
         return super().form_valid(form)
 
 class ProductDetail(DetailView):

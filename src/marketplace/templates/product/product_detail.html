@@ -40,6 +40,8 @@
             <p><strong>Publié le :</strong> {{ product.published|date:"d/m/Y" }}</p>
             <p><strong>Description :</strong></p>
             <p>{{ product.description }}</p>
+            <a href="{% url 'shop:vitrine_detail' product.vitrine product.user.id %}" class="btn btn-primary">Voir la vitrine</a>
+
         </div>
     </div>
 </div>

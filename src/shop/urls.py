@@ -14,5 +14,6 @@ urlpatterns = [
     path('vitrine/<slug:slug_vitrine>/', vitrine_detail, name='vitrine_detail'),
     path('all_vitrines/', all_vitrines, name='all_vitrines'),
     path('vitrine/<slug:slug_vitrine>/user/<int:user_id>/', vitrine_detail, name='vitrine_detail'),
+    path('vitrine/user/<int:user_id>/', vitrine_detail, name='vitrine_detail'),
 
 ]

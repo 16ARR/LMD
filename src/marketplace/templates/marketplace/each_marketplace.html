@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+{% block body %}
+
+<!-- Marketplace de chaque vendeur -->
+
+<div class="vitrine-detail-container" style="max-width: 900px; margin: auto; padding: 20px; background-color: #f9f9f9; border-radius: 8px;">
+    <h1 style="text-align: center;">{{ vitrine.nom_boutique }}</h1>
+<a href="{% url 'marketplace:detail' product.slug %}">Voir la vitrine</a>
+<div>
+    <h1>Produits de {{ user.username }}</h1>
+    <ul>
+        {% for product in products %}
+            <li>
+                <h2>{{ product.titre }}</h2>
+                <p>{{ product.description }}</p>
+                <p>Prix : {{ product.price }}€</p>
+                <a href="{% url 'marketplace:detail' product.slug %}">Voir le produit</a>
+            </li>
+        {% empty %}
+            <p>Aucun produit trouvé.</p>
+        {% endfor %}
+    </ul>
+</div>
+
+{% endblock %}
