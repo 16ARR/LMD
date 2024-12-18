@@ -57,21 +57,6 @@ class Product(models.Model):
         is_new = self._state.adding  # Vérifie si l'objet est nouveau
         super().save(*args, **kwargs)
 
-        # Envoi de l'email après création
-        if is_new:
-            self.__send_email()
-
-    @staticmethod
-    def __send_email():
-        """
-        Envoie une notification par email lorsqu'un nouveau produit est ajouté.
-        """
-        send_mail(
-            subject="Nouvelle annonce",
-            message="Nouvelle annonce déposée",
-            recipient_list=["gabrieltrouve5@yahoo.com"],
-            from_email=None
-        )
 
     def get_absolute_url(self):
         """
