@@ -15,7 +15,8 @@
 <!-- Tri par catégorie -->
 <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center mb-5">
     {% for name, db_name in categories %}
-    <a href="{% url 'marketplace:marketplace' %}?category={{ db_name }}" class="btn btn-outline-primary">{{ name }}</a>
+    <!-- Si la catégorie actuelle est sélectionnée, on applique 'btn-primary' pour surbrillance -->
+    <a href="{% url 'marketplace:marketplace' %}?category={{ db_name }}" class="btn {% if request.GET.category == db_name %}btn-primary{% else %}btn-outline-primary{% endif %}">{{ name }}</a>
     {% endfor %}
 </div>
 
