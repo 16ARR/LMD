@@ -53,7 +53,14 @@ def marketplace(request):
     elif sort_order == 'desc':
         products = products.order_by('-titre')
 
-    return render(request, 'marketplace/marketplace.html', {'products': products})
+    categories = set((product.get_category_display(), product.category) for product in products)
+
+
+    redirection = request.GET.get("category")
+    if redirection:
+        products = Product.objects.filter(category=redirection, activate=True)
+
+    return render(request, "marketplace/marketplace.html", context={"products": products, "categories": categories})
 
 
 def my_marketplace(request, user_id):

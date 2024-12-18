@@ -5,11 +5,28 @@
 {% block body %}
 <!-- Marketplace commune -->
 <h1 class="text-center my-4">Marketplace</h1>
+
+<!-- Formulaire de recherche -->
 <form method="get" action="{% url 'marketplace:search_results' %}" class="d-flex justify-content-center mb-4">
     <input type="text" name="q" class="form-control w-50" placeholder="Rechercher un produit" value="{{ query }}">
     <button type="submit" class="btn btn-primary ms-2">Rechercher</button>
 </form>
 
+<!-- Tri par catégorie -->
+<div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center mb-5">
+    {% for name, db_name in categories %}
+    <a href="{% url 'marketplace:marketplace' %}?category={{ db_name }}" class="btn btn-outline-primary">{{ name }}</a>
+    {% endfor %}
+</div>
+
+<!-- Bouton pour supprimer les filtres -->
+<div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center mb-5">
+    <div class="col">
+        <a href="{% url 'marketplace:marketplace' %}" class="btn btn-outline-primary">Supprimer les filtres</a>
+    </div>
+</div>
+
+<!-- Affichage des produits -->
 <div class="row">
     {% for product in products %}
     <div class="col-md-4 mb-4">
