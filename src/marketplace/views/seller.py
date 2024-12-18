@@ -12,8 +12,17 @@ from marketplace.forms import OrderForm
 from shop.models import Vitrine
 
 
-class CreateProduct(LoginRequiredMixin, CreateView):
+from marketplace.models import Product
+from shop.models import Vitrine
 
+
+
+
+class CreateProduct(LoginRequiredMixin, CreateView):
+    model = Product
+    template_name = "product/create_product.html"
+    success_url = reverse_lazy("index")
+    fields = ["titre", "price", "description", "category", "pics_1", "pics_2", "pics_3"]
 
     def form_valid(self, form):
         # Associer le produit à l'utilisateur
