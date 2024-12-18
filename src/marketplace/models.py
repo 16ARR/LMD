@@ -1,39 +1,28 @@
 import uuid
+from datetime import timezone
+
 from django.core.mail import send_mail
 from django.urls import reverse
-from django.conf import settings
 from django.utils.text import slugify
 from django.db import models
 from Blanche.settings import AUTH_USER_MODEL
-from shop.models import Vitrine
+from django.conf import settings
 
 CATEGORY = [("ch", "Chaussures"), ("pa", "Pantalons"), ("ha", "Hauts"),("my","Mythique")]
 
 def user_directory_path(instance, filename):
     return f"{instance.user.username}/{filename}"
 
-
 class Product(models.Model):
     titre = models.CharField(max_length=50, verbose_name="Titre", help_text="50 caractères max")
     description = models.TextField(max_length=200, verbose_name="Description", help_text="200 caractères max")
     slug = models.SlugField(blank=True, unique=True)
-
-    # Relation avec l'utilisateur (plusieurs produits par utilisateur)
-    user = models.ForeignKey(
+    user = models.OneToOneField(
         AUTH_USER_MODEL,
         on_delete=models.CASCADE,
-        related_name="products",  # Permet d'accéder aux produits via user.products
+        related_name="product",
         null=True
     )
-
-    # Relation avec la vitrine
-    vitrine = models.ForeignKey(
-        "shop.Vitrine",
-        on_delete=models.CASCADE,
-        related_name="products",  # Permet d'accéder aux produits via vitrine.products
-        null=True
-    )
-
     price = models.IntegerField(verbose_name="Prix d'achat")
     category = models.CharField(verbose_name="Catégorie", choices=CATEGORY, max_length=20)
     pics_1 = models.ImageField(verbose_name="Photo 1", upload_to=user_directory_path)
@@ -41,6 +30,12 @@ class Product(models.Model):
     pics_3 = models.ImageField(verbose_name="Photo 3", blank=True, null=True, upload_to=user_directory_path)
     published = models.DateTimeField(verbose_name="Date de publication", auto_now_add=True)
     activate = models.BooleanField(default=True, verbose_name="Activé")
+    vitrine = models.ForeignKey(
+        "shop.Vitrine",
+        on_delete=models.CASCADE,
+        related_name="products",  # Permet d'accéder aux produits via vitrine.products
+        null=True
+    )
 
     class Meta:
         verbose_name = "Article"
@@ -59,21 +54,15 @@ class Product(models.Model):
                 counter += 1
             self.slug = slug
 
-        # Associer automatiquement la vitrine de l'utilisateur
-        if self.user and not self.vitrine:
-            try:
-                self.vitrine = self.user.vitrine  # Associe la vitrine liée à l'utilisateur
-            except Vitrine.DoesNotExist:
-                raise ValueError("L'utilisateur doit avoir une vitrine pour créer un produit.")
-
         is_new = self._state.adding  # Vérifie si l'objet est nouveau
         super().save(*args, **kwargs)
 
-        # Envoi de l'email après création
-        if is_new:
-            self.__send_email()
 
-
+    def get_absolute_url(self):
+        """
+        Retourne l'URL absolue du produit.
+        """
+        return reverse("shop:detail", kwargs={"slug": self.slug, "pk": self.pk})
 
 class Order(models.Model):
     user = models.ForeignKey(

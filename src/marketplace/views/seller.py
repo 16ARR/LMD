@@ -8,35 +8,19 @@ from django.forms import modelformset_factory
 from django.shortcuts import get_object_or_404, redirect, render
 from django.views.decorators.http import require_POST
 from marketplace.models import Product, Order
-from marketplace.forms import OrderForm
-from shop.models import Vitrine
-
-
-from marketplace.models import Product
-from shop.models import Vitrine
-
-
 
 
 class CreateProduct(LoginRequiredMixin, CreateView):
     model = Product
     template_name = "product/create_product.html"
     success_url = reverse_lazy("index")
-    fields = ["titre", "price", "description", "category", "pics_1", "pics_2", "pics_3"]
+    fields = ["titre", "price", "description", "category", "pics_1",
+              "pics_2", "pics_3"]
 
     def form_valid(self, form):
-        # Associer le produit à l'utilisateur
         form.instance.user = self.request.user
-
-        # Associer le produit à la vitrine de l'utilisateur
-        try:
-            form.instance.vitrine = self.request.user.vitrine
-        except Vitrine.DoesNotExist:
-            # Si l'utilisateur n'a pas de vitrine, rediriger vers la création de vitrine
-            from django.shortcuts import redirect
-            return redirect('shop:create_vitrine')
-
         return super().form_valid(form)
+
 
 class ProductDetail(DetailView):
     model = Product
