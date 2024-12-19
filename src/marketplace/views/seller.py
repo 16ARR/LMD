@@ -48,18 +48,24 @@ def marketplace(request):
     products = Product.objects.filter(activate=True)
     sort_order = request.GET.get('sort', 'asc')
     categories = set((product.get_category_display(), product.category) for product in products)
-    # garments = {garment.category: garment.get_category_display()} categories = garments.keys()
 
-    redirection = request.GET.get("category")
-    if redirection:
-        products = Product.objects.filter(category=redirection, activate=True)
+    # Récupérer la catégorie sélectionnée
+    selected_category = request.GET.get("category")
+    if selected_category:
+        products = products.filter(category=selected_category)
 
+    # Trier les produits
     if sort_order == 'asc':
         products = products.order_by('titre')
     elif sort_order == 'desc':
         products = products.order_by('-titre')
 
-    return render(request, "marketplace/marketplace.html", context={"products": products, "categories": categories})
+    return render(request, "marketplace/marketplace.html", context={
+        "products": products,
+        "categories": categories,
+        "selected_category": selected_category,  # Ajout de la catégorie sélectionnée
+    })
+
 
 
 def my_marketplace(request, user_id):

@@ -11,20 +11,15 @@
 </form>
 
 <!-- Filtres par catégorie -->
-<div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center mb-5">
+<div class="d-flex justify-content-center mb-5 gap-2">
     {% for name, db_name in categories %}
     <a href="{% url 'marketplace:marketplace' %}?category={{ db_name }}"
        class="btn {% if selected_category == db_name %}btn-primary active{% else %}btn-outline-primary{% endif %}">
         {{ name }}
     </a>
     {% endfor %}
-</div>
-
-<!-- Bouton pour supprimer les filtres -->
-<div class="row gx-4 gx-lg-5 justify-content-center mb-5">
-    <div class="col">
-        <a href="{% url 'marketplace:marketplace' %}" class="btn btn-outline-primary">Supprimer les filtres</a>
-    </div>
+    <!-- Bouton pour supprimer les filtres -->
+    <a href="{% url 'marketplace:marketplace' %}" class="btn btn-outline-secondary">Supprimer les filtres</a>
 </div>
 
 <!-- Liste des produits -->
@@ -38,7 +33,7 @@
                 <p class="card-text">{{ product.description|truncatewords:20 }}</p>
                 <p class="text-primary fw-bold">Prix : {{ product.price }} €</p>
                 <a href="{% url 'marketplace:detail' product.slug %}" class="btn btn-outline-primary">Voir le produit</a>
-                <form method="post" action="{% url 'marketplace:add_to_cart' pk=product.pk %}">
+                <form method="post" action="{% url 'marketplace:add_to_cart' pk=product.pk %}"></form>
             </div>
         </div>
     </div>

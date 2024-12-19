@@ -10877,3 +10877,20 @@ textarea.form-control-lg {
     font-size: 16px;
     cursor: pointer;
 }
+/* Style des boutons pour la catégorie active */
+.btn-outline-primary {
+    border-color: #007bff;
+    color: #007bff;
+}
+
+.btn-outline-primary:hover {
+    background-color: #007bff;
+    color: white;
+}
+
+/* Style lorsque la catégorie est sélectionnée */
+.btn-primary.active {
+    background-color: #0056b3; /* Bleu foncé */
+    border-color: #004085; /* Bordure plus foncée */
+    color: white; /* Texte blanc */
+}
