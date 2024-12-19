@@ -13,16 +13,29 @@ CATEGORY = [("ch", "Chaussures"), ("pa", "Pantalons"), ("ha", "Hauts"),("my","My
 def user_directory_path(instance, filename):
     return f"{instance.user.username}/{filename}"
 
+
+class Marketplace(models.Model):
+    """
+    Représente une marketplace avec des vitrines associées.
+    """
+    user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='marketplace',null=True)
+    vitrine = models.OneToOneField("shop.Vitrine", on_delete=models.CASCADE, related_name="marketplace",verbose_name="Vitrine")
+    statut = models.BooleanField(default=True, verbose_name="Statut", help_text="Activée ou Désactivée")
+    domaine = models.CharField(max_length=100, verbose_name="Domaine", help_text="Domaine de la Marketplace")
+
+    class Meta:
+        verbose_name = "Marketplace"
+        verbose_name_plural = "Marketplaces"
+
+    def __str__(self):
+        return f"{self.nom} - {'Activée' if self.statut else 'Désactivée'} - {self.domaine}"
+
+
 class Product(models.Model):
     titre = models.CharField(max_length=50, verbose_name="Titre", help_text="50 caractères max")
     description = models.TextField(max_length=200, verbose_name="Description", help_text="200 caractères max")
     slug = models.SlugField(blank=True, unique=True)
-    user = models.OneToOneField(
-        AUTH_USER_MODEL,
-        on_delete=models.CASCADE,
-        related_name="product",
-        null=True
-    )
+    user = models.ForeignKey(AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="product", null=True)
     price = models.IntegerField(verbose_name="Prix d'achat")
     category = models.CharField(verbose_name="Catégorie", choices=CATEGORY, max_length=20)
     pics_1 = models.ImageField(verbose_name="Photo 1", upload_to=user_directory_path)
@@ -30,12 +43,10 @@ class Product(models.Model):
     pics_3 = models.ImageField(verbose_name="Photo 3", blank=True, null=True, upload_to=user_directory_path)
     published = models.DateTimeField(verbose_name="Date de publication", auto_now_add=True)
     activate = models.BooleanField(default=True, verbose_name="Activé")
-    vitrine = models.ForeignKey(
-        "shop.Vitrine",
-        on_delete=models.CASCADE,
-        related_name="products",  # Permet d'accéder aux produits via vitrine.products
-        null=True
-    )
+
+    vitrine = models.ForeignKey("shop.Vitrine", on_delete=models.CASCADE, related_name="products", null=True)
+    marketplace = models.ForeignKey("marketplace.Marketplace", on_delete=models.CASCADE, related_name="products", null=True)
+
 
     class Meta:
         verbose_name = "Article"
@@ -112,6 +123,7 @@ class Cart(models.Model):
         """
         self.orders.all().delete()
         self.delete()
+
 
 
 

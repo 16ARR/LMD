@@ -1,15 +1,28 @@
 {% extends 'base.html' %}
 
-{% block title %}Marketplace{% endblock %}
-
 {% block body %}
 <!-- Marketplace commune -->
 <h1 class="text-center my-4">Marketplace</h1>
+
+<!-- Formulaire de recherche -->
 <form method="get" action="{% url 'marketplace:search_results' %}" class="d-flex justify-content-center mb-4">
     <input type="text" name="q" class="form-control w-50" placeholder="Rechercher un produit" value="{{ query }}">
     <button type="submit" class="btn btn-primary ms-2">Rechercher</button>
 </form>
 
+<!-- Filtres par catégorie -->
+<div class="d-flex justify-content-center mb-5 gap-2">
+    {% for name, db_name in categories %}
+    <a href="{% url 'marketplace:all_marketplace' %}?category={{ db_name }}"
+       class="btn {% if selected_category == db_name %}btn-primary active{% else %}btn-outline-primary{% endif %}">
+        {{ name }}
+    </a>
+    {% endfor %}
+    <!-- Bouton pour supprimer les filtres -->
+    <a href="{% url 'marketplace:all_marketplace' %}" class="btn btn-outline-secondary">Supprimer les filtres</a>
+</div>
+
+<!-- Liste des produits -->
 <div class="row">
     {% for product in products %}
     <div class="col-md-4 mb-4">
@@ -20,14 +33,7 @@
                 <p class="card-text">{{ product.description|truncatewords:20 }}</p>
                 <p class="text-primary fw-bold">Prix : {{ product.price }} €</p>
                 <a href="{% url 'marketplace:detail' product.slug %}" class="btn btn-outline-primary">Voir le produit</a>
-            </div>
-            <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
-                <div class="text-center">
-                    <form method="post" action="{% url 'marketplace:add_to_cart' pk=product.pk %}">
-                        {% csrf_token %}
-                        <input type="submit" value="Ajouter au panier" class="btn btn-outline-dark mt-auto">
-                    </form>
-                </div>
+                <form method="post" action="{% url 'marketplace:add_to_cart' pk=product.pk %}"></form>
             </div>
         </div>
     </div>

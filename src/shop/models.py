@@ -12,6 +12,8 @@ class Tag(models.Model):
         return self.name
 
 
+
+
 class Vitrine(models.Model):
     user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='vitrine',)
     nom_boutique = models.CharField(max_length=255)
